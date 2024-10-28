@@ -11,8 +11,8 @@ class MyPhoneBook {
     int index;
     MyPhoneBook();
     void addContact(std::string data[5]);
-    // std::string search();
-    // void exit();
+    void printContacts();
+    void searchContact(int index);
 };
 
 #endif
