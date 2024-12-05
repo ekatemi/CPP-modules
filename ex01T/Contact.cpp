@@ -25,4 +25,5 @@ Contact::Contact(std::string data[5])
     std::string Contact::getPhoneNum() const{
     return phoneNum;
     }
+    
 

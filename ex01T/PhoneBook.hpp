@@ -11,8 +11,8 @@ class PhoneBook {
         void setIdx(int num);
         //adds contact to list
         void addContact(); //"John Doe","Smith","Teddy","1233t","choko"
-        void searchContact();
-        void showContact(int n);
+        void getBook();
+        void getContact(int n);
         
 };
 

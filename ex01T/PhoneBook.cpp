@@ -8,7 +8,6 @@ void PhoneBook::setIdx(int num)
     curIdx = num;
 }
 
-
 void PhoneBook::addContact()
 {
     std::string data[5];
@@ -29,7 +28,7 @@ std::string fitCol(std::string output)
 
 
 
-void PhoneBook::searchContact()
+void PhoneBook::getBook() //just shows book
 {
     int i = 0;
     std::cout << std::right 
@@ -46,36 +45,20 @@ void PhoneBook::searchContact()
             << std::setw(10) << fitCol(list[i].getNickName()) << std::endl;
         i++;
     }
-    std::string num;
-    while(true)
-    {
-        std::cout << "Enter a number from 0 to 8: ";
-        if (!std::getline(std::cin, num)) 
-        {
-            std::cout << "\nCtrl+D was pressed, exit the program";
-            exit(1);
-        }
-        int n = 0;
-        if (num.length() == 1 && (num[0] - '0') != 9)
-            n = num[0] - '0';
-        else
-        {
-            std::cout << "Wrong number!\n";
-            continue ;
-        }
-            
-        if (n >=0 && n < 9)
-            PhoneBook::showContact(n);
-            break ;
-    }
 }
 
-void PhoneBook::showContact(int n)
+void PhoneBook::getContact(int n) //shows contact with specific index
 {
-    std::cout << "Name: " << list[n].getFirstName() << std::endl;
-    std::cout << "Last Name: " << list[n].getLastName() << std::endl;
-    std::cout << "Nickname: " << list[n].getNickName() << std::endl;
-    std::cout << "Phone: " << list[n].getPhoneNum() << std::endl;
-    std::cout << "Darkest Secret: " << list[n].getDarkestSecret() << std::endl;
+    if (list[n].getFirstName().length() > 0) //list not empty
+    {
+        std::cout << "Name: " << list[n].getFirstName() << std::endl;
+        std::cout << "Last Name: " << list[n].getLastName() << std::endl;
+        std::cout << "Nickname: " << list[n].getNickName() << std::endl;
+        std::cout << "Phone: " << list[n].getPhoneNum() << std::endl;
+        std::cout << "Darkest Secret: " << list[n].getDarkestSecret() << std::endl;  
+    }
+    else
+        std::cout << "Empty" << std::endl;
+
 }
 
