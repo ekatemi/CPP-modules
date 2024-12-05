@@ -24,15 +24,8 @@ void fillData(std::string (&data)[5])
     getData(data[4], "Enter your Darkest Secret: ");
 }
 
-
-
-//1. I exit infinite loop in main only if ctl D (getline fails or cmd == "EXIT")
-//2. If 
-
 int main()
 {
-    std::string data[5];//here goes input data that I use in Contact object
-    
     std::string cmd;
 
     PhoneBook myBook;
@@ -46,24 +39,16 @@ int main()
             std::cout << "\nCtrl+D was pressed, exit the program";
             return (0);
         }
-        if (cmd == "EXIT")
+        if (cmd.length() == 4 && cmd == "EXIT")
             return (0);
-        if (cmd == "ADD")
+        if (cmd.length() == 3 && cmd == "ADD")
             {
-                //fillData(data);
-                //std::cout << "hi\n";
                 myBook.addContact(); 
             }
-        if (cmd == "SEARCH")
+        if (cmd.length() == 6 && cmd == "SEARCH")
             {
                 myBook.searchContact();
             } 
-    }
-
-    void getCmd(std::string &cmd);
-    
-    Contact newContact(data);
-
-        
+    }     
     return (0);
 }

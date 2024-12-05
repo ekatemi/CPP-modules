@@ -13,14 +13,9 @@ void PhoneBook::addContact()
 {
     std::string data[5];
     fillData(data);
-    // // Create a new Contact object using the input data
+   
     Contact newContact(data);
-    
-    // // Add the new Contact to the list at the current index
     list[curIdx] = newContact;
-    
-    // // Increment the index, wrapping around to 0-7
-    // //curIdx = (curIdx + 1) % 8;
     setIdx((curIdx + 1) % 8);
 }
 
@@ -31,6 +26,8 @@ std::string fitCol(std::string output)
         output = output.substr(0, 8) + '.'; //substr(idx init, longitud)
     return output;
 }
+
+
 
 void PhoneBook::searchContact()
 {
@@ -49,4 +46,36 @@ void PhoneBook::searchContact()
             << std::setw(10) << fitCol(list[i].getNickName()) << std::endl;
         i++;
     }
+    std::string num;
+    while(true)
+    {
+        std::cout << "Enter a number from 0 to 8: ";
+        if (!std::getline(std::cin, num)) 
+        {
+            std::cout << "\nCtrl+D was pressed, exit the program";
+            exit(1);
+        }
+        int n = 0;
+        if (num.length() == 1 && (num[0] - '0') != 9)
+            n = num[0] - '0';
+        else
+        {
+            std::cout << "Wrong number!\n";
+            continue ;
+        }
+            
+        if (n >=0 && n < 9)
+            PhoneBook::showContact(n);
+            break ;
+    }
 }
+
+void PhoneBook::showContact(int n)
+{
+    std::cout << "Name: " << list[n].getFirstName() << std::endl;
+    std::cout << "Last Name: " << list[n].getLastName() << std::endl;
+    std::cout << "Nickname: " << list[n].getNickName() << std::endl;
+    std::cout << "Phone: " << list[n].getPhoneNum() << std::endl;
+    std::cout << "Darkest Secret: " << list[n].getDarkestSecret() << std::endl;
+}
+

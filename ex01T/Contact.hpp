@@ -1,7 +1,9 @@
 #ifndef CONTACT_HPP
 # define CONTACT_HPP
-
 #include <string>
+
+//contains data of each contact (5 fields)
+//contains functions: constructor that initializes each object with data[5] 
 
 class Contact {
     private:

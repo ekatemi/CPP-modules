@@ -12,6 +12,7 @@ class PhoneBook {
         //adds contact to list
         void addContact(); //"John Doe","Smith","Teddy","1233t","choko"
         void searchContact();
+        void showContact(int n);
         
 };
 
