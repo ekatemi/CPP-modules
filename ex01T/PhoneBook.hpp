@@ -10,12 +10,8 @@ class PhoneBook {
     public:
         void setIdx(int num);
         //adds contact to list
-        void addContact(); //"John Doe","Smith","Teddy","1233t","choko"
+        void addContact(std::string data[]); //["John Doe","Smith","Teddy","1233t","choko"]
         void getBook();
-        void getContact(int n);
-        
+        void getContact(int n); 
 };
-
-void fillData(std::string (&data)[5]);
-
 #endif

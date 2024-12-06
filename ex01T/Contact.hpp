@@ -17,7 +17,6 @@ class Contact {
         Contact() {};
         //my constructor
         Contact(std::string data[5]);
-
         
         std::string getFirstName(void) const;
         std::string getLastName(void) const;

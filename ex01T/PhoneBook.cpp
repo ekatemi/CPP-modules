@@ -8,11 +8,8 @@ void PhoneBook::setIdx(int num)
     curIdx = num;
 }
 
-void PhoneBook::addContact()
+void PhoneBook::addContact(std::string data[])
 {
-    std::string data[5];
-    fillData(data);
-   
     Contact newContact(data);
     list[curIdx] = newContact;
     setIdx((curIdx + 1) % 8);
@@ -26,9 +23,7 @@ std::string fitCol(std::string output)
     return output;
 }
 
-
-
-void PhoneBook::getBook() //just shows book
+void PhoneBook::getBook() //just show book
 {
     int i = 0;
     std::cout << std::right 
