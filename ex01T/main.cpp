@@ -1,6 +1,7 @@
 #include "Contact.hpp"
 #include "PhoneBook.hpp"
 #include <iostream>
+#include <stdlib.h>
 
 int checkGetLine(std::string &data)
 {
