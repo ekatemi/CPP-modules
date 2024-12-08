@@ -46,7 +46,7 @@ int		Account::checkAmount( void ) const {
 
 void Account::_displayTimestamp (void) {
     // Get the current time
-    std::time_t now = std::time(nullptr);
+    std::time_t now = std::time(&now);
     //std::tm* localTime = std::localtime(&now);
 
     // Format and display the timestamp
