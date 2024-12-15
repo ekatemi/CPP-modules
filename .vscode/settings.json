@@ -74,6 +74,8 @@
         "__nullptr": "cpp",
         "__string": "cpp",
         "__tuple": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "fstream": "cpp",
+        "stack": "cpp"
     }
 }
