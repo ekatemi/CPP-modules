@@ -2,21 +2,16 @@
 
 int main() {
     Harl harl;
-    std::string type;
-    while (true) {
-        std::cout << "Type level of complain: ";
-        std::cin >> type;
-        if (std::cin.fail()) {
-            std::cout << "\nCtrl+D was pressed, exit the program.\n";
-            return 0; // Exit the program
-        }
-        // If input is not empty, break the loop and proceed
-        if (!type.empty()) {
-            break;
-        }
-    }
-    
-    harl.complain(type);
+    std::cout << std::endl << "*** DEBUG Level ***" << std::endl;
+	harl.complain("DEBUG");
+	std::cout << std::endl << "*** INFO Level ***" << std::endl;;
+	harl.complain("INFO");
+	std::cout << std::endl << "*** WARNING Level ***" << std::endl;
+	harl.complain("WARNING");
+	std::cout << std::endl << "*** ERROR Level ***" << std::endl;
+	harl.complain("ERROR");
+	std::cout << std::endl << "*** No valid Level ***" << std::endl;
+	harl.complain("HI");
     
     return 0;
 }
