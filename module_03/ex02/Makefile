@@ -1,4 +1,4 @@
-NAME = scav
+NAME = frag
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
 
@@ -8,8 +8,8 @@ INC_DIR = include
 OBJ_DIR = obj
 
 # Explicit source and object files
-SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/ClapTrap.cpp $(SRC_DIR)/ScavTrap.cpp
-HEADER = $(INC_DIR)/ClapTrap.hpp $(INC_DIR)/ScavTrap.hpp
+SRC = $(SRC_DIR)/main.cpp $(SRC_DIR)/ClapTrap.cpp $(SRC_DIR)/ScavTrap.cpp $(SRC_DIR)/FragTrap.cpp
+HEADER = $(INC_DIR)/ClapTrap.hpp $(INC_DIR)/ScavTrap.hpp $(INC_DIR)/FragTrap.hpp
 OBJ = $(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
 
 # All rule
