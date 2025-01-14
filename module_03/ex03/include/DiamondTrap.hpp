@@ -19,6 +19,8 @@ class DiamondTrap : public FragTrap, public ScavTrap{
         //member function
         void whoAmI();
 
+
+
 };
 
 

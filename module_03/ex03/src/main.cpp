@@ -2,8 +2,15 @@
 
 int main() {
     
-    DiamondTrap dt("John");
+    DiamondTrap dt;
     dt.whoAmI();
+    
+    std::cout << std::endl;
+    std::cout << "CONSTRUCTOR WITH ARG -------------------->\n";
+    std::cout << std::endl;
+
+    DiamondTrap dr("John");
+    dr.whoAmI();
 
     return 0;
 }

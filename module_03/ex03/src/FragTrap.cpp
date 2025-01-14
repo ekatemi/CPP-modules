@@ -5,7 +5,7 @@ FragTrap::FragTrap() : ClapTrap() {
         _hitPoints = 100;
         _energyPoints = 100;
         _attackDamage= 30;
-        std::cout << "Default constructor FragTrap created bot" << _name << std::endl;
+        std::cout << "Default constructor FragTrap created bot " << _name << std::endl;
 }
 
 FragTrap::FragTrap(std::string name) : ClapTrap(name) {
