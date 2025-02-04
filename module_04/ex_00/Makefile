@@ -1,8 +1,8 @@
-NAME = clap
+NAME = animal
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
-SRC = main.cpp Animal.cpp
-HEADER = Animal.hpp
+SRC = main.cpp Animal.cpp Cat.cpp Dog.cpp WrongCat.cpp WrongAnimal.cpp
+HEADER = Animal.hpp Cat.hpp Dog.hpp WrongCat.hpp WrongAnimal.hpp
 OBJ = $(SRC:.cpp=.o)
 all: $(NAME)
 $(NAME): Makefile $(OBJ)
