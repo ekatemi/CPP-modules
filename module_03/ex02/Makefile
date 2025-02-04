@@ -1,8 +1,8 @@
-NAME = scav
+NAME = frag
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
-SRC = main.cpp ClapTrap.cpp ScavTrap.cpp
-HEADER = ClapTrap.hpp ScavTrap.hpp
+SRC = main.cpp ClapTrap.cpp ScavTrap.cpp FragTrap.cpp
+HEADER = ClapTrap.hpp ScavTrap.hpp FragTrap.hpp
 OBJ = $(SRC:.cpp=.o)
 all: $(NAME)
 $(NAME): Makefile $(OBJ)

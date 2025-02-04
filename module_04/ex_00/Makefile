@@ -1,8 +1,8 @@
-NAME = scav
+NAME = clap
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98 -pedantic
-SRC = main.cpp ClapTrap.cpp ScavTrap.cpp
-HEADER = ClapTrap.hpp ScavTrap.hpp
+SRC = main.cpp Animal.cpp
+HEADER = Animal.hpp
 OBJ = $(SRC:.cpp=.o)
 all: $(NAME)
 $(NAME): Makefile $(OBJ)

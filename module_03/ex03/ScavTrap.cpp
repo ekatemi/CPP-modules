@@ -6,7 +6,7 @@ ScavTrap::ScavTrap() : ClapTrap() {
         _energyPoints = 50;
         _attackDamage= 20;
         gateMode = false;
-        std::cout << "Default constructor ScavTrap created bot" << _name << std::endl;
+        std::cout << "Default constructor ScavTrap created bot " << _name << std::endl;
 }
 
 ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
