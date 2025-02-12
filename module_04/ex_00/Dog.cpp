@@ -2,9 +2,9 @@
 
 
 Dog::Dog() : Animal("Dog") {
-    std::cout << "Default constructor for Cat\n";
+    std::cout << "Default constructor for Dog\n";
 }
-Dog::Dog(const std::string &type) : Animal("Cat") {
+Dog::Dog(const std::string &type) : Animal("Dog") {
     (void) type;
 }
 
