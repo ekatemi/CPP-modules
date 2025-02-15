@@ -21,9 +21,7 @@ Animal::~Animal() {
     std::cout << "Animal destructed\n";
 }
 
-void Animal::makeSound() const {
-    std::cout << "none sound\n";
-}
+
 
 std::string Animal::getType() const {
     return _type;

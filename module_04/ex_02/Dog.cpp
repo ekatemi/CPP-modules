@@ -14,7 +14,7 @@ Dog::Dog(const std::string &type) : Animal("Dog") {
 Dog::Dog(const Dog &src) {
     _type = src._type;
     _ideas = new Brain(*src._ideas);
-    std::cout << "Copy constructor for Dog\n";
+    std::cout << "Copy constructor for Dog - New Brain at: " << _ideas << ", Copied from: " << src._ideas << std::endl;
 }
 
 Dog& Dog::operator=(const Dog& src) {
@@ -40,5 +40,6 @@ void Dog::printFiveIdeas() const {
     for(int i = 0; i < 5; i++)
         std::cout << i << " " << _ideas->getIdea(i) << std::endl;
 }
-
-
+void Dog::changeIdea(int idx, const std::string& newIdea) {
+    _ideas->setIdea(idx, newIdea);
+}
