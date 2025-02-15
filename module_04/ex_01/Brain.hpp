@@ -14,7 +14,8 @@ class Brain {
         Brain& operator=(const Brain& src);
         virtual ~Brain();
 
-        std::string getIdea( int idx ) const; 
+        std::string getIdea( int idx ) const;
+        void setIdea(int idx, const std::string& idea);
 };
 
 // std::ostream& operator<<(std::ostream& os, const Brain& obj);

@@ -6,14 +6,15 @@
         {
             ideas[i++] = "idea";
         }
-        std::cout << "Brain constructed\n";
+        std::cout << "Brain constructed at: " << this << std::endl;
     }
     Brain::Brain(const Brain &src) {
         for (int i = 0; i < 100; i++) {
             ideas[i] = src.ideas[i];
         }
-        std::cout << "Copy constructor for Brain class\n";
+        std::cout << "Copy constructor for Brain class - New Brain at: " << this << ", Copied from: " << &src << std::endl;
     }
+
     Brain& Brain::operator=(const Brain& src) {
         if (this != &src)
         {
@@ -34,6 +35,13 @@
         return ideas[index];
     }
     return "Invalid index";
+    }
+
+    void Brain::setIdea(int idx, const std::string& idea) {
+        if (idx <= 0 && idx < 100)
+        {
+            ideas[idx] = idea;
+        }
     }
 
     // std::ostream& operator<<(std::ostream& os, const Brain& brain) {

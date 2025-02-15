@@ -36,4 +36,9 @@ void Dog::makeSound() const{
     std::cout << "Gau\n";
 }
 
+void Dog::printFiveIdeas() const {
+    for(int i = 0; i < 5; i++)
+        std::cout << i << " " << _ideas->getIdea(i) << std::endl;
+}
+
 
