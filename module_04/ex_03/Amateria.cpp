@@ -15,9 +15,12 @@ AMateria& AMateria::operator=(const AMateria& src) {
 }
 
 AMateria::~AMateria() {
-    std::cout << "Amateria class destructed\n";
 }
 
 std::string const& AMateria::getType() const {
     return _type;
+}
+
+void use(ICharacter& target) {
+    std::cout << "* abstract use " << target.getName() << " *" << std::endl;
 }

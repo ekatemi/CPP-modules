@@ -20,7 +20,7 @@ Ice* Ice::clone() const {
     return new Ice(*this);
 }
 //redefine fun
-void use(ICharacter&) {
-    std::cout <<  "* shoots an ice bolt at <name> *" <<std::endl;
+void Ice::use(ICharacter& target) {
+    std::cout <<  "* shoots an ice bolt at " << target.getName() << " *" <<std::endl;
 
 }

@@ -1,7 +1,9 @@
 #ifndef ICHARACTER_HPP
 # define ICHARACTER_HPP
 
-#include "Amateria.hpp"
+#include <string>  // Needed for std::string
+
+class AMateria;  // Forward declaration
 
 class ICharacter
 {

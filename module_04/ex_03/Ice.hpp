@@ -5,8 +5,7 @@
 #include "Icharacter.hpp"
 
 class Ice : public AMateria {
-    private:
-        std::string _name;//???
+
     public:
         Ice();
         //Ice(const std::string &type); //no need param constr???

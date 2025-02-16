@@ -2,6 +2,7 @@
 # define CHARACTER_HPP
 
 #include "Icharacter.hpp"
+#include "Amateria.hpp"
 
 class Character : public ICharacter {
         
@@ -21,10 +22,10 @@ class Character : public ICharacter {
         //destructor
         ~Character();
         //methods
-        virtual std::string const & getName() const;
-        virtual void equip(AMateria* m);
-        virtual void unequip(int idx);
-        virtual void use(int idx, ICharacter& target);
+        std::string const & getName() const;
+        void equip(AMateria* m);
+        // void unequip(int idx);
+        // void use(int idx, ICharacter& target);
 };
 
 

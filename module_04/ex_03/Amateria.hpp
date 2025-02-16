@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <string>
+#include "Icharacter.hpp"
 
+//abstract class
 class AMateria
 {
     protected:
@@ -16,6 +18,7 @@ class AMateria
 
         std::string const & getType() const; //Returns the materia type
         virtual AMateria* clone() const = 0; //no need to implement
+        virtual void use(ICharacter& target);
 };
 
 #endif
