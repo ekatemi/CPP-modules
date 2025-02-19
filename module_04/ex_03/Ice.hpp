@@ -13,7 +13,7 @@ class Ice : public AMateria {
         Ice& operator=(const Ice& src);
         ~Ice();
         virtual Ice* clone() const; //parent method overload
-        void use(ICharacter&); //TODO implement Icharacter
+        void use(ICharacter& target); //TODO implement Icharacter
 };
 
 #endif

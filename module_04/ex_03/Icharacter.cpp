@@ -1,5 +1,3 @@
 #include "Icharacter.hpp"
 
-ICharacter::~ICharacter() {
-    
-}
+ICharacter::~ICharacter() { }

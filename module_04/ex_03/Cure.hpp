@@ -13,7 +13,7 @@ class Cure : public AMateria {
         Cure& operator=(const Cure& src);
         ~Cure();
         virtual Cure* clone() const; //parent method overload
-        void use(ICharacter&); //TODO implement Icharacter
+        void use(ICharacter& target);
 };
 
 #endif

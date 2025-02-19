@@ -5,6 +5,8 @@
 #include <string>
 #include "Icharacter.hpp"
 
+class ICharacter; //forward declaration
+
 //abstract class
 class AMateria
 {
