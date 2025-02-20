@@ -9,8 +9,9 @@ class Character : public ICharacter {
         protected:
             std::string _name;
             AMateria *slot[4]; //inventory
-            //implement here box for materia
-            AMateria** inventory; // Dynamic array
+
+            //storage for dropped materia
+            AMateria **inventory; // Dynamic array
             int size;      // Current number of items
             int capacity;  // Maximum slots
         

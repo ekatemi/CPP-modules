@@ -1,3 +1,5 @@
 #include "Icharacter.hpp"
 
-ICharacter::~ICharacter() { }
+ICharacter::~ICharacter() {
+    std::cout << B << "Ice destructed" << E << std::endl;
+}

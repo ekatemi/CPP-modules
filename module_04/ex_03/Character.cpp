@@ -12,10 +12,12 @@ Character::Character() : _name("def"), size(0), capacity(4) {
     {
        inventory[i] = NULL;
     }
+    std::cout << B << "Default constructor Character" << E << std::endl;
 }
 
 //param constructor
 Character::Character(const std::string &name) : _name(name) , size(0), capacity(4) {
+    std::cout << B << "Param constructor Character" << E << std::endl;
     for (int i = 0; i < 4; i++)
     {
         slot[i] = NULL;
@@ -51,7 +53,7 @@ Character::Character(const Character& src) :
     for (int i = size; i < capacity; i++) {
         inventory[i] = NULL;
     }
-
+    std::cout << B << "Copy constructor Character" << E << std::endl;
 }
 
 //=assignment operator
@@ -93,11 +95,13 @@ Character& Character::operator=(const Character& src) {
             inventory[i] = NULL;
         }
     }
+    std::cout << B << "= operator Character" << E << std::endl;
     return *this;
 }
 
 //destructor
 Character::~Character() {
+    std::cout << B << "Character destructed" << E << std::endl;
     for (int i = 0; i < 4; i++) {
         if (slot[i]) {
             delete slot[i];  // Free each dynamically allocated AMateria
@@ -156,7 +160,7 @@ void Character::unequip(int idx) {
 }
 
 void Character::use(int idx, ICharacter& target) {
-   slot[idx]->use(target);//????? TO CHECK
+   slot[idx]->use(target);
 }
 
 void Character::resizeInventory() {

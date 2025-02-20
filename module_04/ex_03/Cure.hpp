@@ -8,10 +8,10 @@ class Cure : public AMateria {
 
     public:
         Cure();
-        //Ice(const std::string &type); //no need param constr???
+        Cure(const std::string &type);
         Cure(const Cure& src);
         Cure& operator=(const Cure& src);
-        ~Cure();
+        virtual ~Cure(); //virtual is optional
         virtual Cure* clone() const; //parent method overload
         void use(ICharacter& target);
 };
