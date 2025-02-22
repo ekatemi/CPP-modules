@@ -4,10 +4,7 @@
 Ice::Ice() : AMateria("ice") {
     std::cout << START << "Default constructor Ice called" << END << std::endl;
 }
-//param const
-Ice::Ice(const std::string &type) : AMateria(type) {
-    std::cout << START << "Param constructor Ice called" << END << std::endl;
-}
+
 
 //copy constr
 Ice::Ice(const Ice& src) : AMateria(src) {

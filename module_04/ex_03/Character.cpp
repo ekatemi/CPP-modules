@@ -1,14 +1,14 @@
 #include "Character.hpp"
 
 //default constructor
-Character::Character() : _name("def"), size(0), capacity(4) {
+Character::Character() : _name("def"), countItems(0), inventorySize(4) {
     for (int i = 0; i < 4; i++)
     {
         slot[i] = NULL;
     }
     
-    inventory = new AMateria*[capacity];
-    for (int i = 0; i < capacity; i++)
+    inventory = new AMateria*[inventorySize];
+    for (int i = 0; i < inventorySize; i++)
     {
        inventory[i] = NULL;
     }
@@ -16,15 +16,15 @@ Character::Character() : _name("def"), size(0), capacity(4) {
 }
 
 //param constructor
-Character::Character(const std::string &name) : _name(name) , size(0), capacity(4) {
+Character::Character(const std::string &name) : _name(name) , countItems(0), inventorySize(4) {
     std::cout << B << "Param constructor Character" << E << std::endl;
     for (int i = 0; i < 4; i++)
     {
         slot[i] = NULL;
     }
     
-    inventory = new AMateria*[capacity];
-    for (int i = 0; i < capacity; i++)
+    inventory = new AMateria*[inventorySize];
+    for (int i = 0; i < inventorySize; i++)
     {
        inventory[i] = NULL;
     }  
@@ -32,7 +32,7 @@ Character::Character(const std::string &name) : _name(name) , size(0), capacity(
 
 //copy constructor
 Character::Character(const Character& src) :
-    _name(src._name), size(src.size), capacity(src.capacity) {
+    _name(src._name), countItems(src.countItems), inventorySize(src.inventorySize) {
     
     for (int i = 0; i < 4; i++) {
         if (src.slot[i]) // Check if there is an AMateria in the slot
@@ -42,15 +42,15 @@ Character::Character(const Character& src) :
     }
     
     // Allocate new memory for inventory and copy the contents
-    inventory = new AMateria*[capacity]; 
-    for (int i = 0; i < size; i++) {
+    inventory = new AMateria*[inventorySize]; 
+    for (int i = 0; i < countItems; i++) {
         if (src.inventory[i]) // Check if there is an AMateria in the inventory
             inventory[i] = src.inventory[i]->clone(); // Clone creates a new copy
         else
             inventory[i] = NULL;
     }
-    // Initialize the rest of the inventory to NULL if size < capacity
-    for (int i = size; i < capacity; i++) {
+    // Initialize the rest of the inventory to NULL if countItems < inventorySize
+    for (int i = countItems; i < inventorySize; i++) {
         inventory[i] = NULL;
     }
     std::cout << B << "Copy constructor Character" << E << std::endl;
@@ -61,8 +61,8 @@ Character& Character::operator=(const Character& src) {
     if (this != &src)
     {
         _name = src._name;
-        capacity = src.capacity;
-        size = src.size;
+        inventorySize = src.inventorySize;
+        countItems = src.countItems;
         
         // Free existing memory to prevent memory leaks
         for (int i = 0; i < 4; i++) {
@@ -80,18 +80,18 @@ Character& Character::operator=(const Character& src) {
                 slot[i] = NULL;
         }
         delete[] inventory;
-        inventory = new AMateria*[capacity];
+        inventory = new AMateria*[inventorySize];
         
         // Deep copy the new inventory
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < countItems; i++) {
             if (src.inventory[i]) // If the source has an item, clone it
                 inventory[i] = src.inventory[i]->clone();
             else
                 inventory[i] = NULL;
         }
         
-        // Initialize the rest of the inventory to NULL if size < capacity
-        for (int i = size; i < capacity; i++) {
+        // Initialize the rest of the inventory to NULL if countItems < inventorySize
+        for (int i = countItems; i < inventorySize; i++) {
             inventory[i] = NULL;
         }
     }
@@ -109,7 +109,7 @@ Character::~Character() {
         }
     }
 
-    for (int i = 0; i < capacity; i++) {
+    for (int i = 0; i < inventorySize; i++) {
         if (inventory[i]) {
             delete inventory[i];  // Free each dynamically allocated AMateria
             inventory[i] = NULL;  // Set to NULL to avoid dangling pointers
@@ -133,6 +133,8 @@ void Character::equip(AMateria* m) {
             return ;
         }
     }
+    std::cout << "Slots are full, do nothing\n";
+    delete m; ////here if i do something else memory leaks
 }
 
 
@@ -147,7 +149,7 @@ void Character::unequip(int idx) {
         return;
         
   
-    for (int i = 0; i < capacity; i++)
+    for (int i = 0; i < inventorySize; i++)
     {
         if (inventory[i] == NULL) //find first empty space
         {
@@ -164,12 +166,16 @@ void Character::use(int idx, ICharacter& target) {
 }
 
 void Character::resizeInventory() {
-    capacity *= 2;  // Double capacity
-    AMateria** newInventory = new AMateria*[capacity];
+    inventorySize *= 2;  // Double inventorySize
+    AMateria** newInventory = new AMateria*[inventorySize];
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < countItems; i++)
         newInventory[i] = inventory[i];  // Copy existing elements
 
     delete[] inventory;  // Free old memory
     inventory = newInventory;
+}
+
+void Character::droppedMateriaCount() {
+    std::cout << "countItems of storage is: " << countItems << " inventorySize: " << inventorySize << std::endl; //countItems of storage
 }

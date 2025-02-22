@@ -57,6 +57,7 @@ void MateriaSource::learnMateria(AMateria* m) {
     for (int i = 0; i < 4; i++) {
         if (materia[i] == NULL) {  // Find the first empty slot
             materia[i] = m->clone();  // Clone the Materia
+            delete m;
             return;
         }
     }
@@ -64,6 +65,7 @@ void MateriaSource::learnMateria(AMateria* m) {
     // All slots are full, replace Materia in a loop starting from idx
     delete materia[idx];  // Free old Materia
     materia[idx] = m->clone();  // Clone new Materia
+    delete m;
     idx = (idx + 1) % 4;  // Move index cyclically from 0 to 3
 }
 

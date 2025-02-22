@@ -12,8 +12,8 @@ class Character : public ICharacter {
 
             //storage for dropped materia
             AMateria **inventory; // Dynamic array
-            int size;      // Current number of items
-            int capacity;  // Maximum slots
+            int countItems;      // Current number of items
+            int inventorySize;  // Maximum slots
         
         public:
             //default constructor
@@ -34,6 +34,8 @@ class Character : public ICharacter {
             void use(int idx, ICharacter& target);
 
             void resizeInventory();
+
+            void droppedMateriaCount();
 };
 
 

@@ -5,10 +5,7 @@ Cure::Cure() : AMateria("cure") {
     std::cout << START << "Default constructor Cure called" << END << std::endl;
 }
 
-//param const
-Cure::Cure(const std::string &type) : AMateria(type) {
-    std::cout << START << "Param constructor Cure called" << END << std::endl;
-}
+
 
 //copy constr
 Cure::Cure(const Cure& src) : AMateria(src) {

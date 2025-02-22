@@ -8,7 +8,7 @@ class Ice : public AMateria {
 
     public:
         Ice();
-        Ice(const std::string &type);
+        
         Ice(const Ice& src);
         Ice& operator=(const Ice& src);
         virtual ~Ice(); //virtual is optional
