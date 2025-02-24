@@ -34,6 +34,7 @@ Character::Character(const std::string &name) : _name(name) , countItems(0), inv
 Character::Character(const Character& src) :
     _name(src._name), countItems(src.countItems), inventorySize(src.inventorySize) {
     
+    std::cout << B << "Copy constructor Character" << E << std::endl;
     for (int i = 0; i < 4; i++) {
         if (src.slot[i]) // Check if there is an AMateria in the slot
             slot[i] = src.slot[i]->clone(); // Clone creates a new copy
@@ -53,7 +54,6 @@ Character::Character(const Character& src) :
     for (int i = countItems; i < inventorySize; i++) {
         inventory[i] = NULL;
     }
-    std::cout << B << "Copy constructor Character" << E << std::endl;
 }
 
 //=assignment operator
@@ -126,6 +126,11 @@ std::string const & Character::getName() const{
     return _name;
 }
 
+void Character::use(int idx, ICharacter& target) {
+   if (slot[idx])
+    slot[idx]->use(target);
+}
+
 void Character::equip(AMateria* m) {
     if (!m) return;
     
@@ -138,7 +143,7 @@ void Character::equip(AMateria* m) {
         }
     }
     std::cout << "Slots are full, do nothing\n";
-    delete m; ////here if i do something else memory leaks
+    delete m;
 }
 
 
@@ -150,23 +155,25 @@ void Character::unequip(int idx) {
     }
 
     if (!slot[idx])
+    {
+        std::cout << "Slot[" << idx << "] is empty\n";
         return;
+    }
+        
         
   
-    for (int i = 0; i < inventorySize; i++)
+    for (int i = countItems; i < inventorySize; i++)
     {
         if (inventory[i] == NULL) //find first empty space
         {
             inventory[i] = slot[idx];
             slot[idx] = NULL;
+            std::cout << "Item moved from slot " << idx << " to Inventory index " << i << std::endl;
+            countItems++;
             return;
         }
     }
     resizeInventory();
-}
-
-void Character::use(int idx, ICharacter& target) {
-   slot[idx]->use(target);
 }
 
 void Character::resizeInventory() {
@@ -178,8 +185,5 @@ void Character::resizeInventory() {
 
     delete[] inventory;  // Free old memory
     inventory = newInventory;
-}
-
-void Character::droppedMateriaCount() {
-    std::cout << "countItems of storage is: " << countItems << " inventorySize: " << inventorySize << std::endl; //countItems of storage
+    
 }

@@ -73,10 +73,11 @@ void MateriaSource::learnMateria(AMateria* m) {
 AMateria* MateriaSource::createMateria(std::string const & type) {
     for (int i = 0; i < 4; i++) {
         if (materia[i] && materia[i]->getType() == type) {  // Check if not NULL
-            return materia[i]->clone();  // Return a new copy
+            return materia[i]->clone();  // Return a new copy of materia <type>
         }
     }
-    return NULL;  // Return NULL if type is unknown
+    std::cout << "Wrong type <"<< type <<">, should be 'ice' or 'cure'\n"; //if type not match
+    return 0;  // Return NULL if type is unknown
 }
 
 

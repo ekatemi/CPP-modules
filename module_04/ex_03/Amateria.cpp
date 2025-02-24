@@ -14,7 +14,7 @@ AMateria::AMateria(const AMateria &src) : _type(src._type) {
 AMateria& AMateria::operator=(const AMateria& src) {
     if (this != &src)
     {
-       // _type = src._type; no need to copy type, it should remain the same
+       //_type = src._type; //no need to copy type, it should remain the same
        std::cout << START << "Assignment operator Amateria called" << END << std::endl;
     }
     return *this;

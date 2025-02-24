@@ -15,9 +15,9 @@ class ICharacter; //forward declaration
 class AMateria
 {
     protected:
-        std::string _type;
+        const std::string _type; //unmutable
     public:
-        AMateria();
+        AMateria(); //we really dont need it
         AMateria(std::string const & type); //param constr
         AMateria(const AMateria &src); //copy constr
         AMateria& operator=(const AMateria& src);//=overload

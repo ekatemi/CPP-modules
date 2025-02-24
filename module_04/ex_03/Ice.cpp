@@ -16,10 +16,11 @@ Ice& Ice::operator=(const Ice& src) {
     std::cout << START << "= operator for Ice called" << END << std::endl;
     if (this != &src)
     {
-        //_type = src._type; no need to copy type, it is set to "ice"
+        AMateria::operator=(src); //we NOT copy type, it is unmutable
     }
     return *this;
 }
+
 Ice::~Ice() {
     std::cout << START << "Ice destructed" << END << std::endl;
 }

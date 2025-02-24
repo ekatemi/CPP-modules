@@ -35,7 +35,6 @@ class Character : public ICharacter {
 
             void resizeInventory();
 
-            void droppedMateriaCount();
 };
 
 
