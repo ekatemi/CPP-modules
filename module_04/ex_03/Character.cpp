@@ -59,16 +59,21 @@ Character::Character(const Character& src) :
 //=assignment operator
 Character& Character::operator=(const Character& src) {
     if (this != &src)
-    {
-        _name = src._name;
-        inventorySize = src.inventorySize;
-        countItems = src.countItems;
-        
+    {   
         // Free existing memory to prevent memory leaks
         for (int i = 0; i < 4; i++) {
             if (slot[i]) {
                 delete slot[i];
                 slot[i] = NULL;
+            }
+        }
+
+        for (int i = 0; i < inventorySize; i++)
+        {
+            if (inventory[i]) 
+            {
+                delete inventory[i];
+                inventory[i] = NULL;
             }
         }
 
@@ -80,19 +85,18 @@ Character& Character::operator=(const Character& src) {
                 slot[i] = NULL;
         }
         delete[] inventory;
-        inventory = new AMateria*[inventorySize];
         
+        _name = src._name;
+        inventorySize = src.inventorySize;
+        countItems = src.countItems;
+        
+        inventory = new AMateria*[inventorySize];
         // Deep copy the new inventory
         for (int i = 0; i < countItems; i++) {
             if (src.inventory[i]) // If the source has an item, clone it
                 inventory[i] = src.inventory[i]->clone();
             else
                 inventory[i] = NULL;
-        }
-        
-        // Initialize the rest of the inventory to NULL if countItems < inventorySize
-        for (int i = countItems; i < inventorySize; i++) {
-            inventory[i] = NULL;
         }
     }
     std::cout << B << "= operator Character" << E << std::endl;

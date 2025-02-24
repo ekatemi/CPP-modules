@@ -4,56 +4,36 @@
 #include "MateriaSource.hpp"
 
 int main() {
-    //provided main
-    IMateriaSource* src = new MateriaSource(); 
-    src->learnMateria(new Ice());
-    src->learnMateria(new Cure());
-    src->learnMateria(new Ice());
-    src->learnMateria(new Cure());
-    src->learnMateria(new Cure());
-    src->learnMateria(new Cure());
-    ICharacter* me = new Character("me");
-    //empty storage should be 0
-    me->droppedMateriaCount();
-    
-    AMateria* tmp;
-    tmp = src->createMateria("ice");
-    me->equip(tmp);
-    tmp = src->createMateria("cure");
-    me->equip(tmp);
+IMateriaSource* src = new MateriaSource();
 
-    //check slots are full
-    tmp = src->createMateria("ice");
-    me->equip(tmp);
-    tmp = src->createMateria("cure");
-    me->equip(tmp);
+src->learnMateria(new Ice());
+src->learnMateria(new Cure());
+ICharacter* me = new Character("me");
+AMateria* tmp;
+tmp = src->createMateria("ice");
+//check type
+if (tmp)
+    std::cout << "Type is : " << tmp->getType() << std::endl;
+else
+    std::cout << "Unknown materia\n";
 
-    me->unequip(0);
-    me->unequip(1);
-    me->droppedMateriaCount();
+me->equip(tmp);
 
-    for (int i = 0; i < 4; i++) //free slots
-        me->unequip(i);
-    me->droppedMateriaCount();
+tmp = src->createMateria("cure"); //null if type incorrect
+//check type
+if (tmp)
+    std::cout << "Type is : " << tmp->getType() << std::endl;
+else
+    std::cout << "Unknown materia\n";
 
-    tmp = src->createMateria("cure");
-    me->equip(tmp);
-    tmp = src->createMateria("cure");
-    me->equip(tmp);
-    tmp = src->createMateria("cure");
-    me->equip(tmp);
-      
-    ICharacter* bob = new Character("bob");
-    me->use(0, *bob);
-    me->use(1, *bob);
-    //-------------------------------
+me->equip(tmp);
+ICharacter* bob = new Character("bob");
+me->use(0, *bob); //here segfault if type is incorrect
+me->use(1, *bob);
 
-    
-    
-    
-    
-    delete bob;
-    delete me;
-    delete src;
-    return 0; 
+delete bob;
+delete me;
+delete src;
+
+return 0; 
 }

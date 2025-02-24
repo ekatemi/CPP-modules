@@ -17,7 +17,7 @@ Cure& Cure::operator=(const Cure& src) {
     std::cout << START << "= operator Cure called" << END << std::endl;
     if (this != &src)
     {
-        _type = src._type;
+       // _type = src._type;
     }
     return *this;
 }
@@ -32,5 +32,6 @@ Cure* Cure::clone() const {
 
 //redefine fun
 void Cure::use(ICharacter& target) {
+
     std::cout <<  "* heals " << target.getName() << "'s wounds *" <<std::endl;
 }

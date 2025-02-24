@@ -76,7 +76,7 @@ AMateria* MateriaSource::createMateria(std::string const & type) {
             return materia[i]->clone();  // Return a new copy
         }
     }
-    return 0;  // Return NULL if type is unknown
+    return NULL;  // Return NULL if type is unknown
 }
 
 
