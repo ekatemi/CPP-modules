@@ -5,14 +5,10 @@ Dog::Dog() : Animal("Dog") {
     _ideas = new Brain();
     std::cout << "Default constructor for Dog\n";
 }
-Dog::Dog(const std::string &type) : Animal("Dog") {
-    (void) type;
-    _ideas = new Brain();
-}
+
 
 //copy constructor
-Dog::Dog(const Dog &src) {
-    _type = src._type;
+Dog::Dog(const Dog &src) : Animal(src) {
     _ideas = new Brain(*src._ideas);
     std::cout << "Copy constructor for Dog\n";
 }
@@ -20,9 +16,9 @@ Dog::Dog(const Dog &src) {
 Dog& Dog::operator=(const Dog& src) {
     if (this != &src)
     {
+        Animal::operator=(src);
         delete _ideas;
         _ideas = new Brain(*src._ideas);
-        _type = src._type;
     }
     return *this;
 }

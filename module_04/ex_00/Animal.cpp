@@ -10,6 +10,7 @@ Animal::Animal(const std::string &type) : _type(type) {
 Animal::Animal(const Animal &src) : _type(src._type) {
     std::cout << "Copy constructor for Animal class\n";
 }
+
 Animal& Animal::operator=(const Animal& src) {
     if (this != &src) {
         _type = src._type;

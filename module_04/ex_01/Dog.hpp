@@ -9,7 +9,7 @@ class Dog : public Animal {
         Brain *_ideas;
     public:
         Dog();
-        Dog(const std::string &type);
+        
         Dog(const Dog &src);
         Dog& operator=(const Dog& src);
         ~Dog();

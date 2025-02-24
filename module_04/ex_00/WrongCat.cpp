@@ -9,7 +9,7 @@ WrongCat::WrongCat(const std::string &type) : WrongAnimal("WrongCat") {
 }
 
 //copy constructor
-WrongCat::WrongCat(const WrongCat &src) {
+WrongCat::WrongCat(const WrongCat &src) : WrongAnimal("WrongCat") {
     _type = src._type;
     std::cout << "Copy constructor for WrongCat\n";
 }

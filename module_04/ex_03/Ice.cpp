@@ -5,7 +5,6 @@ Ice::Ice() : AMateria("ice") {
     std::cout << START << "Default constructor Ice called" << END << std::endl;
 }
 
-
 //copy constr
 Ice::Ice(const Ice& src) : AMateria(src) {
     std::cout << START << "Copy constructor Ice called" << END << std::endl;
@@ -32,5 +31,4 @@ Ice* Ice::clone() const {
 //redefine fun
 void Ice::use(ICharacter& target) {
     std::cout <<  "* shoots an ice bolt at " << target.getName() << " *" <<std::endl;
-
 }

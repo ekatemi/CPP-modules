@@ -6,10 +6,9 @@
 
 int main()
 {
-
 //const Animal c; Animal class is abstract
-const Animal* j = new Dog();
-const Animal* i = new Cat();
+const AAnimal* j = new Dog();
+const AAnimal* i = new Cat();
 
 std::cout << j->getType() << " " << std::endl;
 std::cout << i->getType() << " " << std::endl;
@@ -60,7 +59,7 @@ std::cout << "\n";
 std::cout << GREEN << "CREATE ARRAY ANIMALS HALF CATS HALF DOGS" << RESET << std::endl;
 const int size = 6;
 
-Animal* arr[size];
+AAnimal* arr[size];
 for (int i = 0; i < size; i++)
 {
     if(i < size/2)

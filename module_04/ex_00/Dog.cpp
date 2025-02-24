@@ -4,20 +4,16 @@
 Dog::Dog() : Animal("Dog") {
     std::cout << "Default constructor for Dog\n";
 }
-Dog::Dog(const std::string &type) : Animal("Dog") {
-    (void) type;
-}
 
 //copy constructor
-Dog::Dog(const Dog &src) {
-    _type = src._type;
+Dog::Dog(const Dog &src) : Animal(src) {
     std::cout << "Copy constructor for Dog\n";
 }
 
 Dog& Dog::operator=(const Dog& src) {
     if (this != &src)
     {
-        _type = src._type;
+        Animal::operator=(src);
     }
     return *this;
 }
