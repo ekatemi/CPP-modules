@@ -5,6 +5,8 @@
 #include <exception>
 #include <string>
 
+#include "Bureaucrat.hpp"
+
 class Form
 {
 private:
@@ -27,13 +29,14 @@ private:
 
 public:
     Form();
-    Form(std::string &str, bool boo, int sign, int exec);
+    Form(std::string &str, int sign, int exec);
     ~Form();
     // methods
     std::string getName() const;
     bool isSigned() const;
     int getGradeToSign() const;
     int getGradeToExec() const;
+    void beSigned(const Bureaucrat &obj);
 };
 
 std::ostream &operator<<(std::ostream &os, const Form &obj);
