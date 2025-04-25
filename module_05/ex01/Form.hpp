@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Bureaucrat.hpp"
+class Bureaucrat;
 
 class Form
 {
@@ -29,7 +30,7 @@ private:
 
 public:
     Form();
-    Form(std::string &str, int sign, int exec);
+    Form(std::string str, int sign, int exec);
     ~Form();
     // methods
     std::string getName() const;

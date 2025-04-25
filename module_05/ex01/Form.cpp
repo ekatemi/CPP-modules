@@ -11,18 +11,14 @@ const char *Form::GradeTooLowException::what() const throw()
     return "Grade is too low!";
 }
 
-Form::Form() : _name("Form_def"), _grade_to_sign(150), _grade_to_exec(150)
-{
-    _signed = false;
-}
+Form::Form() : _name("Form_def"), _signed(false), _grade_to_sign(150), _grade_to_exec(150) {}
 
-Form::Form(std::string &str, int sign, int exec) : _name(str), _grade_to_sign(sign), _grade_to_exec(exec)
+Form::Form(std::string str, int sign, int exec) : _name(str), _signed(false), _grade_to_sign(sign), _grade_to_exec(exec)
 {
     if (sign < 1 || exec < 1)
         throw GradeTooHighException();
     else if (sign > 150 || exec > 150)
         throw GradeTooLowException();
-    _signed = false;
 }
 
 Form::~Form() {}
@@ -49,6 +45,7 @@ bool Form::isSigned() const
 
 void Form::beSigned(const Bureaucrat &obj)
 {
+
     if (obj.getGrade() <= getGradeToSign())
     {
         _signed = true;

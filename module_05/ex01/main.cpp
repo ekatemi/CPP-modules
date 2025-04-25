@@ -2,13 +2,27 @@
 
 int main(void)
 {
-    Bureaucrat a("Garry", 75);
-    Form f;
+    try
+    {
+        Bureaucrat b("Bob", 150);
+        std::cout << b << std::endl;
 
-    std::cout << f << std::endl;
+        Form f("Report", 100, 50);
+        std::cout << f << std::endl;
 
-    f.beSigned(a);
-    std::cout << f << std::endl;
+        Bureaucrat a("Garry", 75);
+        Form myform("Order", 70, 50);
 
-    return (0);
+        std::cout << myform << std::endl;
+
+        // myform.beSigned(a);
+        a.signForm(myform);
+        std::cout << myform << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Exception caught: " << e.what() << std::endl;
+    }
+
+    return 0;
 }
