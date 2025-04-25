@@ -2,44 +2,40 @@
 #define BUREAUCRAT_HPP
 
 #include <iostream>
-
-class GradeTooHighException
-{
-private:
-    std::string _error;
-
-public:
-    GradeTooHighException();
-    std::string getError();
-};
-
-class GradeTooLowException
-{
-private:
-    std::string _error;
-
-public:
-    GradeTooLowException();
-    std::string getError();
-};
+#include <exception>
+#include <string>
 
 class Bureaucrat
 {
 private:
-    const std::string _name;
-    int _grade; // ranges from 1(highest) to 150
+    class GradeTooHighException : public std::exception
+    {
+    public:
+        virtual const char *what() const throw();
+    };
+
+    class GradeTooLowException : public std::exception
+    {
+    public:
+        virtual const char *what() const throw();
+    };
+    const std::string _name; // unmutable
+    unsigned int _grade;     // ranges from 1(highest) to 150
+
+    Bureaucrat &operator=(const Bureaucrat &src);
 
 public:
     Bureaucrat();
-    Bureaucrat(const std::string &name, const int grade);
+    Bureaucrat(const std::string &name, const unsigned int grade);
     Bureaucrat(const Bureaucrat &src);
-    Bureaucrat &operator=(const Bureaucrat &src);
     ~Bureaucrat();
 
-    std::string getName();
-    unsigned int getGrade();
+    std::string getName() const;
+    int getGrade() const;
     void incrementGrade();
     void decrementGrade();
 };
+
+std::ostream &operator<<(std::ostream &os, const Bureaucrat &obj);
 
 #endif

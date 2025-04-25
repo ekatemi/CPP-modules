@@ -1,50 +1,57 @@
 #include "Bureaucrat.hpp"
 
-GradeTooHighException::GradeTooHighException() : _error("Grade too high") {};
-std::string GradeTooHighException::getError() { return _error; };
-
-GradeTooLowException::GradeTooLowException() : _error("Grade too low") {};
-std::string GradeTooLowException::getError() { return _error; };
-
-Bureaucrat::Bureaucrat() : _name("default"), _grade(1) {};
-
-Bureaucrat::Bureaucrat(const std::string &name, const int grade) : _name(name), _grade(grade)
+const char *Bureaucrat::GradeTooHighException::what() const throw()
 {
-    if (grade < 1)
+    return "Grade is too high!";
+}
+
+const char *Bureaucrat::GradeTooLowException::what() const throw()
+{
+    return "Grade is too low!";
+}
+
+Bureaucrat::Bureaucrat() : _name("Default"), _grade(150) {}
+
+Bureaucrat::Bureaucrat(const std::string &name, const unsigned int grade) : _name(name), _grade(grade)
+{
+    if (grade <= 0)
         throw GradeTooHighException();
-    else if (grade > 150)
+    else if (grade >= 151)
         throw GradeTooLowException();
-};
+}
 
-Bureaucrat::Bureaucrat(const Bureaucrat &src) : _name(src._name), _grade(src._grade) {};
+Bureaucrat::Bureaucrat(const Bureaucrat &src) : _name(src._name), _grade(src._grade) {}
 
-Bureaucrat &Bureaucrat::operator=(const Bureaucrat &src)
+// Bureaucrat &Bureaucrat::operator=(const Bureaucrat &src); // no assignment possible for const
+
+Bureaucrat::~Bureaucrat() {}
+
+std::string Bureaucrat::getName() const
 {
-    if (this != &src)
-    {
-        _name = src._name;
-        _grade = src._grade;
-    }
-    return *this;
-};
+    return (_name);
+}
 
-Bureaucrat::~Bureaucrat() {};
-
-std::string Bureaucrat::getName()
+int Bureaucrat::getGrade() const
 {
-    return _name;
-};
-unsigned int Bureaucrat::getGrade()
-{
-    return _grade;
-};
+    return (_grade);
+}
 
 void Bureaucrat::incrementGrade()
 {
     _grade--;
-};
+    if (_grade < 1)
+        throw GradeTooHighException();
+}
 
 void Bureaucrat::decrementGrade()
 {
     _grade++;
-};
+    if (_grade > 150)
+        throw GradeTooLowException();
+}
+
+std::ostream &operator<<(std::ostream &os, const Bureaucrat &obj)
+{
+    os << obj.getName() << ", bureaucrat grade " << obj.getGrade();
+    return os;
+}
