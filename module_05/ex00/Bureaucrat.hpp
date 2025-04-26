@@ -32,8 +32,8 @@ public:
 
     std::string getName() const;
     int getGrade() const;
-    void incrementGrade();
-    void decrementGrade();
+    void incrementGrade(int n);
+    void decrementGrade(int n);
 };
 
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &obj);

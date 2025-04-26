@@ -36,21 +36,21 @@ int Bureaucrat::getGrade() const
     return (_grade);
 }
 
-void Bureaucrat::incrementGrade(int n)
+void Bureaucrat::incrementGrade()
 {
-    _grade -= n;
+    _grade--;
     if (_grade < 1)
         throw GradeTooHighException();
 }
 
-void Bureaucrat::decrementGrade(int n)
+void Bureaucrat::decrementGrade()
 {
-    _grade += n;
+    _grade++;
     if (_grade > 150)
         throw GradeTooLowException();
 }
 
-void Bureaucrat::signForm(Form &a) const
+void Bureaucrat::signForm(AForm &a) const
 {
     try
     {
@@ -61,6 +61,20 @@ void Bureaucrat::signForm(Form &a) const
     {
         std::cout << _name << " could't sign " << a.getName() << " because " << e.what() << std::endl;
     }
+}
+
+void Bureaucrat::executeForm(AForm const & form) const {
+    try
+    {
+        form.execute(*this);
+        std::cout << _name << " executed " << form.getName() << " form" << std::endl;
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << _name << " could't execute " << form.getName() << " because " << e.what() << std::endl;
+    }
+    
+
 }
 
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &obj)

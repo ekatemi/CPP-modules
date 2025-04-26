@@ -2,10 +2,25 @@
 
 int main(void)
 {
+    Bureaucrat b("Bob", 120);
+    std::cout << b << std::endl;
+    Form f("Report", 100, 50);
+
+    b.signForm(f);
+
+
+    Bureaucrat c(b);
+    // c.decrementGrade(-10);
+    // std::cout << c << std::endl;
+    
     try
     {
+        
         Bureaucrat b("Bob", 1);
         std::cout << b << std::endl;
+
+            c.decrementGrade(-10);
+            
 
         Form f("Report", 100, 50);
         std::cout << f << std::endl;
@@ -27,6 +42,6 @@ int main(void)
     {
         std::cerr << "Exception caught: " << e.what() << std::endl;
     }
-
+std::cout << c << std::endl;
     return 0;
 }

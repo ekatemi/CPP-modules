@@ -8,7 +8,7 @@
 #include "Bureaucrat.hpp"
 class Bureaucrat;
 
-class Form
+class AForm
 {
 private:
     class GradeTooHighException : public std::exception
@@ -22,25 +22,29 @@ private:
     public:
         virtual const char *what() const throw();
     };
-    const std::string _name;
+    const std::string _name; //also can be target
+    const std::string _target;
     bool _signed;
     const int _grade_to_sign;
     const int _grade_to_exec;
-    Form &operator=(const Form &src);
+    AForm &operator=(const AForm &src);
+    virtual void action() const = 0; //pure abstract class
 
 public:
-    Form();
-    Form(std::string str, int sign, int exec);
-    Form(const Form &obj);
-    ~Form();
+    AForm(std::string str, std::string target, int sign, int exec);
+    AForm(const AForm &obj);
+    virtual ~AForm();
     // methods
     std::string getName() const;
+    std::string getTarget() const;
     bool isSigned() const;
     int getGradeToSign() const;
     int getGradeToExec() const;
     void beSigned(const Bureaucrat &obj);
+    //virtual void action() const = 0; //pure abstract class
+    virtual void execute(Bureaucrat const & executor) const;
 };
 
-std::ostream &operator<<(std::ostream &os, const Form &obj);
+std::ostream &operator<<(std::ostream &os, const AForm &obj);
 
 #endif
