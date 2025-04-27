@@ -10,6 +10,11 @@ class AForm;
 
 class Intern
 {
+    private:
+    typedef AForm* (*funcPtr)(std::string target);
+    static AForm* createShrubberyForm(std::string target);
+    static AForm* createRobotomyForm(std::string target);
+    static AForm* createPardonForm(std::string target);
     
     public:
     Intern();

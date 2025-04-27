@@ -4,7 +4,7 @@ int main(void)
 {
     Bureaucrat b("Bob", 120);
     std::cout << b << std::endl;
-    Form f("Report", 100, 50);
+    Form f("Report", 100, 10);
 
     b.signForm(f);
 
@@ -22,7 +22,7 @@ int main(void)
             c.decrementGrade(-10);
             
 
-        Form f("Report", 100, 50);
+        Form f("Report", 100, 500);
         std::cout << f << std::endl;
 
         Bureaucrat a("Garry", 75);
