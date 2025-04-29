@@ -12,7 +12,7 @@ const char *Bureaucrat::GradeTooLowException::what() const throw()
 
 Bureaucrat::Bureaucrat() : _name("Default"), _grade(150) {}
 
-Bureaucrat::Bureaucrat(const std::string &name, const unsigned int grade) : _name(name), _grade(grade)
+Bureaucrat::Bureaucrat(const std::string &name, const int grade) : _name(name), _grade(grade)
 {
     if (grade <= 0)
         throw GradeTooHighException();
@@ -22,7 +22,12 @@ Bureaucrat::Bureaucrat(const std::string &name, const unsigned int grade) : _nam
 
 Bureaucrat::Bureaucrat(const Bureaucrat &src) : _name(src._name), _grade(src._grade) {}
 
-// Bureaucrat &Bureaucrat::operator=(const Bureaucrat &src); // no assignment possible for const
+Bureaucrat &Bureaucrat::operator=(const Bureaucrat &src)
+{
+    if(this != &src)
+        _grade = src._grade;
+    return *this;
+}
 
 Bureaucrat::~Bureaucrat() {}
 
@@ -38,16 +43,16 @@ int Bureaucrat::getGrade() const
 
 void Bureaucrat::incrementGrade()
 {
-    _grade--;
-    if (_grade < 1)
+    if (_grade <= 1)
         throw GradeTooHighException();
+    _grade--;
 }
 
 void Bureaucrat::decrementGrade()
 {
-    _grade++;
-    if (_grade > 150)
+    if (_grade >= 150)
         throw GradeTooLowException();
+    _grade++;
 }
 
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &obj)
