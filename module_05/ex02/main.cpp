@@ -5,11 +5,11 @@
 
 int main(void)
 {
-    // Continuing with other code, assuming Bureaucrat creation was successful
     try
     {
         // Create other forms
-        Bureaucrat b("Will", 1);
+        Bureaucrat b("Will", 45);
+        Bureaucrat c = b;
         PresidentialPardonForm p("Trish");
         ShrubberyCreationForm s("Office");
         RobotomyRequestForm r("Bender");
@@ -20,9 +20,9 @@ int main(void)
         std::cout << r << std::endl;
 
         // Bureaucrat signs the forms
-        b.signForm(p);
-        b.signForm(s);
-        b.signForm(r);
+        c.signForm(p);
+        c.signForm(s);
+        c.signForm(r);
 
         // Output updated form details
         std::cout << p << std::endl;
@@ -36,8 +36,7 @@ int main(void)
     }
     catch (const std::exception& e)
     {
-        // Catching exceptions for signing or executing the forms
-        std::cerr << "Error with form operation: " << e.what() << '\n';
+        std::cerr << "Exception caught: " << e.what() << '\n';
     }
 
     return 0;

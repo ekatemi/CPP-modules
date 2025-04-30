@@ -3,14 +3,15 @@
 
 const char *AForm::GradeTooHighException::what() const throw()
 {
-    return "Grade is too high!";
+    return "AForm: Grade is too high!";
 }
 
 const char *AForm::GradeTooLowException::what() const throw()
 {
-    return "Grade is too low!";
+    return "AForm: Grade is too low!";
 }
 
+//AForm::AForm() : _name("Form_def"), _signed(false), _target("def"), _grade_to_sign(150), _grade_to_exec(150) {}
 
 AForm::AForm(std::string str, std::string target, int sign, int exec) : _name(str), _target(target), _signed(false), _grade_to_sign(sign), _grade_to_exec(exec)
 {
@@ -22,6 +23,12 @@ AForm::AForm(std::string str, std::string target, int sign, int exec) : _name(st
 
 AForm::AForm(const AForm &obj) : _name(obj._name), _target(obj._target), _signed(obj._signed), _grade_to_sign(obj._grade_to_sign), _grade_to_exec(obj._grade_to_exec) {
 
+}
+
+AForm &AForm::operator=(const AForm &src) {
+    if(this != &src)
+        _signed = src._signed;
+    return (*this);
 }
 
 AForm::~AForm() {}

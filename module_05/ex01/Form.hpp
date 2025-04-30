@@ -26,12 +26,12 @@ private:
     bool _signed;
     const int _grade_to_sign;
     const int _grade_to_exec;
-    Form &operator=(const Form &src);
 
 public:
     Form();
     Form(std::string str, int sign, int exec);
     Form(const Form &obj);
+    Form &operator=(const Form &src);
     ~Form();
     // methods
     std::string getName() const;

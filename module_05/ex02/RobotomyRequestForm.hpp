@@ -11,9 +11,9 @@ class RobotomyRequestForm : public AForm
     
     public:
     RobotomyRequestForm(std::string target);
-    //ShrubberyCreationForm(const ShrubberyCreationForm &obj);
-    
-    //method
+    RobotomyRequestForm(const RobotomyRequestForm &src);
+    RobotomyRequestForm &operator=(const RobotomyRequestForm &src);
+    ~RobotomyRequestForm();
     
    
     

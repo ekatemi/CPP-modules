@@ -1,9 +1,18 @@
 
 #include "ShrubberyCreationForm.hpp"
 
-ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm("ShrubberyCreationForm", target, 145, 137)
+ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm("Shrubbery Form", target, 145, 137)
 { 
 }
+
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &src) : AForm(src) {}
+
+ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationForm &src) {
+    if(this != &src)
+        AForm::operator=(src);
+    return (*this);
+}
+ShrubberyCreationForm::~ShrubberyCreationForm() {}
 
 void ShrubberyCreationForm::action() const
 {
@@ -21,5 +30,3 @@ void ShrubberyCreationForm::action() const
         std::cout << "Error opening file!" << std::endl;
     }
 }
-
-

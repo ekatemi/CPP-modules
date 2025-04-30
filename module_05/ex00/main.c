@@ -5,19 +5,21 @@ int main(void)
 
     Bureaucrat a;
     std::cout << a << std::endl;
-    Bureaucrat b("Garry", 150);
+    //Bureaucrat b("Garry", 150);
+    std::cout << std::endl;
+    std::cout << "Start try/catch bloque-------->" << std::endl;
+    std::cout << std::endl;
 
     try
     {
-        //Bureaucrat b("Garry", 150);
-        for (int i; i < 80; i++)
-            b.incrementGrade();
+        Bureaucrat b("Garry", 1);
+        b.incrementGrade();
+        std::cout << b << std::endl;
     }
     catch (const std::exception &e)
     {
-        std::cout << "Exception cought: " << e.what() << std::endl;
+        std::cout << "Exception cought in Bureaucrat: " << e.what() << std::endl;
     }
-    std::cout << b << std::endl;
 
     return(0);
 }

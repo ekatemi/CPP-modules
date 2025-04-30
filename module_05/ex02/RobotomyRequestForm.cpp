@@ -7,6 +7,18 @@ RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("Robotomy R
 { 
 }
 
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm &src) : AForm(src) {}
+
+RobotomyRequestForm &RobotomyRequestForm::operator=(const RobotomyRequestForm &src) {
+    if (this != &src) {
+        AForm::operator=(src);
+    }
+    return *this;
+}
+
+RobotomyRequestForm::~RobotomyRequestForm() {}
+
+//redef parent method
 void RobotomyRequestForm::action() const
 {
     std::cout << "Some drilling noises...." << std::endl;

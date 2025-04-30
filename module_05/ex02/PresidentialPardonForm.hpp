@@ -10,14 +10,11 @@ class PresidentialPardonForm : public AForm
     private:
         void action() const;
     public:
+    //PresidentialPardonForm();
     PresidentialPardonForm(std::string target);
-    //ShrubberyCreationForm(const ShrubberyCreationForm &obj);
-    
-    
-  
-    
+    PresidentialPardonForm(const PresidentialPardonForm &src);
+    PresidentialPardonForm &operator=(const PresidentialPardonForm &src);
+    ~PresidentialPardonForm();
 };
-
-//std::ostream &operator<<(std::ostream &os, const ShrubberyCreationForm &obj);
 
 #endif

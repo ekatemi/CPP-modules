@@ -13,26 +13,27 @@ class AForm
 private:
     class GradeTooHighException : public std::exception
     {
-    public:
-        virtual const char *what() const throw();
+        public:
+            virtual const char *what() const throw();
     };
 
     class GradeTooLowException : public std::exception
     {
-    public:
-        virtual const char *what() const throw();
+        public:
+            virtual const char *what() const throw();
     };
-    const std::string _name; //also can be target
+    const std::string _name;
     const std::string _target;
     bool _signed;
     const int _grade_to_sign;
     const int _grade_to_exec;
-    AForm &operator=(const AForm &src);
     virtual void action() const = 0; //pure abstract class
 
 public:
+    //AForm();
     AForm(std::string str, std::string target, int sign, int exec);
     AForm(const AForm &obj);
+    AForm &operator=(const AForm &src);
     virtual ~AForm();
     // methods
     std::string getName() const;

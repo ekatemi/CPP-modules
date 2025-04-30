@@ -22,11 +22,17 @@ AForm *Intern::createPardonForm(std::string target) { return new PresidentialPar
 
 AForm* Intern::makeForm(std::string name, std::string target) {
     std::string arr[] = {"presidential pardon", "robotomy request", "shrubbery creation"};
-    funcPtr fun[] = {&Intern::createPardonForm, &Intern::createRobotomyForm, &Intern::createShrubberyForm};
+    //array of function ptr
+    AForm* (*fun[])(std::string) = {
+        &Intern::createPardonForm,
+        &Intern::createRobotomyForm,
+        &Intern::createShrubberyForm
+    };
+    
     for(int i = 0; i < 3; i++)
     {
         if(arr[i] == name) {
-            std::cout << "Intern creates " << name << std::endl;
+            std::cout << "Intern creates " << name << " form" << std::endl;
             return fun[i](target);
         }
         }

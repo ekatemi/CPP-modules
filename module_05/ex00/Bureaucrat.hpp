@@ -19,7 +19,8 @@ class Bureaucrat
             public:
                 virtual const char *what() const throw();
         };
-
+        
+        //Variables
         const std::string _name; // unmutable
         int _grade;     // ranges from 1(highest) to 150
 

@@ -23,13 +23,13 @@ private:
         virtual const char *what() const throw();
     };
     const std::string _name; // unmutable
-    unsigned int _grade;     // ranges from 1(highest) to 150
-    Bureaucrat &operator=(const Bureaucrat &src);
+    int _grade;     // ranges from 1(highest) to 150
 
 public:
     Bureaucrat();
-    Bureaucrat(const std::string &name, const unsigned int grade);
+    Bureaucrat(const std::string &name, const int grade);
     Bureaucrat(const Bureaucrat &src);
+    Bureaucrat &operator=(const Bureaucrat &src);
     ~Bureaucrat();
 
     std::string getName() const;
