@@ -4,11 +4,11 @@
 
 class ScalarConverter
 {
-public:
+
     ScalarConverter();
     ScalarConverter(const ScalarConverter &src);
     ScalarConverter &operator=(const ScalarConverter &src);
-    virtual ~ScalarConverter();
+    virtual ~ScalarConverter() = 0;
     // char int float double
     static void convert(std::string str);
 };
