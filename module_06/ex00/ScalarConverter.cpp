@@ -62,33 +62,30 @@ ScalarConverter::~ScalarConverter() {};
 
 void ScalarConverter::convert(std::string str)
 {
-    float f = 0.0;
-    double d = 0.0;
-    int i = 0;
-    char c = ' ';
-
     if (str[str.length() - 1] == 'f')
         str = str.substr(0, str.length() - 1);
 
-    try
-    {
-    }
-    f = static_cast<float>(atof(str.c_str()));
-    d = static_cast<double>(f);
-    i = static_cast<int>(f);
-    c = static_cast<char>(i);
+    float f = static_cast<float>(atof(str.c_str()));
+    std::cout << "F is " << f << std::endl;
+    double d = static_cast<double>(f);
+    int i = static_cast<int>(f);
+    char c = static_cast<char>(i);
 
-    if (!isprint(c))
-        std::cout << "char: " << "Non displayable" << std::endl;
-    else if (str == "nan")
-        std::cout << "char: " << "Impossible" << std::endl;
+    if (f != f)
+    { // NaN check
+        std::cout << "char: Impossible" << std::endl;
+        std::cout << "int: Impossible" << std::endl;
+        std::cout << "float: nanf" << std::endl;
+        std::cout << "double: nan" << std::endl;
+        return;
+    }
+
+    if (!std::isprint(c))
+        std::cout << "char: Non displayable" << std::endl;
     else
-        std::cout << "char: " << "'" << c << "'" << std::endl;
+        std::cout << "char: '" << c << "'" << std::endl;
 
     std::cout << "int: " << i << std::endl;
     std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
-    std::cout << "double: " << std::fixed << d << std::endl;
-
-    //  std::cout << "float: " << static_cast<int>(str) << std::endl;
-    //  std::cout << "double: " << static_cast<int>(str) << std::endl;
+    std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
 }
