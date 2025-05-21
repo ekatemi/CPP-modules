@@ -2,8 +2,6 @@
 #include <limits>
 #include <cmath>
 #include <cerrno>
-#include <cfloat>
-#include <climits>
 
 ScalarConverter::ScalarConverter() {};
 ScalarConverter::ScalarConverter(const ScalarConverter &src) { (void)src; };
@@ -68,84 +66,71 @@ ScalarConverter::~ScalarConverter() {};
 void ScalarConverter::convert(std::string str)
 {  
     
-    int i = 0;
-    char c = ' ';
-    float f = 0.0f;
-    double d = 0.0;
-
-    if (str[str.length() - 1] == 'f' && (str != "inf"))
+    if (str[str.length() - 1] == 'f')
         str = str.substr(0, str.length() - 1);
     std::cout << "String is: " << str << std::endl;
-    if (str == "inf" || str == "+inf" || str == "in" 
-        || str == "+in" || str == "-inf" || str == "-in")
-    {
-        std::cout << "char: Impossible" << std::endl;
-        std::cout << "int: Impossible" << std::endl;
-        std::cout << "float: " << str << "f" << std::endl;
-        std::cout << "double: " << str << std::endl;
-        return ;
-    }
-
-    // Reset errno before conversion
+    
     errno = 0;
-    char* endPtr = NULL;
+    char* endPtr;
+    double d = strtod(str.c_str(), &endPtr);
 
-    d = strtod(str.c_str(), &endPtr);
-
-    // Check if any conversion happened
-    if (endPtr == str.c_str()) {
-        std::cout << "invalid input (no conversion to double)" << std::endl;
-        return;
-    }
-    // Check if the whole string was converted
-    else if (*endPtr != '\0') {
-        std::cout << "invalid input (leftover characters)" << std::endl;
-        return;
-    }
-
-    // Check for overflow/underflow
-    if (errno == ERANGE) {
-        std::cout << "double: out of range" << std::endl;
-        return;
-    }
-
-    // Passed all checks
-    //std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
-    if (d > FLT_MAX || d < -FLT_MAX) {
-    // Overflow for float
-        std::cout << "float: overflow (infinity)" << std::endl;
+    if (errno == ERANGE)
+    {
+        std::cout << "Input err: overflow or underflow" << std::endl;
         return ;
-    // } else if (std::isnan(d)) {
-    //     // Handle NaN if you want
+    }     
+    else if (endPtr == str.c_str() || *endPtr != '\0')
+    {
+        std::cout << "Input err: invalid input" << std::endl;\
+        return ;
+    }   
+    else {
+        std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
+        return ;
+    }
+    //     std::cout << "double: " << d << std::endl;
+    float f = static_cast<float>(d);
+    // if (!std::isfinite(f)) {
+    //     std::cout << "Hello inf" << std::endl;
+    // }
+
+    // if (str[str.length() - 1] == 'f')
+    //     str = str.substr(0, str.length() - 1);
+    // std::cout << "String is: " << str << std::endl;
+    
+    // if (str == "inf" || str == "+inf" || str == "in" 
+    //     || str == "+in" || str == "-inf" || str == "-in")
+    // {
+    //     std::cout << "char: Impossible" << std::endl;
+    //     std::cout << "int: Impossible" << std::endl;
+    //     std::cout << "float: " << str << "f" << std::endl;
+    //     std::cout << "double: " << str << "f" << std::endl;
+    //     return ;
+    // }
+
+    
+    
+    
+    
+    // int i = static_cast<int>(f);
+    // char c = static_cast<char>(i);
+
+    // if (d != d)
+    // {
+    //     std::cout << "char: Impossible" << std::endl;
+    //     std::cout << "int: Impossible" << std::endl;
     //     std::cout << "float: nanf" << std::endl;
-    } else {
-        f = static_cast<float>(d);
-    }
-    if (d > INT_MAX || d < INT_MIN) {
-    // Overflow would occur if you cast d to int
-    std::cout << "int: Impossible" << std::endl;
-    } else {
-        i = static_cast<int>(d);
-    }
+    //     std::cout << "double: nan" << std::endl;
+    //     return;
+    // }
 
-    c = static_cast<char>(i);
-    if (d != d)
-        std::cout << "char: Impossible" << std::endl;
-    else if (!std::isprint(c))
-        std::cout << "char: Non displayable" << std::endl;
+    // if (!std::isprint(c))
+    //     std::cout << "char: Non displayable" << std::endl;
+    // else
+    //     std::cout << "char: '" << c << "'" << std::endl;
     
-    else
-        std::cout << "char: '" << c << "'" << std::endl;
-
-    if (d > INT_MAX || d < INT_MIN || d != d) {
-    // Overflow would occur if you cast d to int
-        std::cout << "int: Impossible" << std::endl;
-    } else {
-        i = static_cast<int>(d);
-        std::cout << "int: " << i << std::endl;
-    }
     
+    // std::cout << "int: " << i << std::endl;
     std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
     std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
-   
 }

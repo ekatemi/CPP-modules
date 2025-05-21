@@ -6,8 +6,8 @@ int main(int argc, char *argv[])
     {
         std::cout << "Only 1 argument!" << std::endl;
     }
-    ScalarConverter r;
-    ScalarConverter::convert(argv[1]);
+    else
+        ScalarConverter::convert(argv[1]);
 
     return 0;
 };

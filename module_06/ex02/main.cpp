@@ -1,10 +1,11 @@
 #include "Base.hpp"
 #include <cstdlib>
 #include <ctime>
+#include <exception>
 
 Base *generate(void)
 {
-    std::srand(static_cast<unsigned>(std::time(nullptr))); // Initialize random seed using current time
+    std::srand(static_cast<unsigned>(std::time(NULL))); // Initialize random seed using current time
     int rand1 = rand() % 101;
 
     if (rand1 % 2 == 0)
@@ -43,14 +44,35 @@ void identify(Base *p)
         std::cout << "Unknown type" << std::endl;
 }
 
-// void identify(Base &p)
-// {
-// }
+void identify(Base& p)
+{
+    try {
+        (void)dynamic_cast<A&>(p);
+        std::cout << "It is A" << std::endl;
+        return;
+    } catch (...) {}
+
+    try {
+        (void)dynamic_cast<B&>(p);
+        std::cout << "It is B" << std::endl;
+        return;
+    } catch (...) {}
+
+    try {
+        (void)dynamic_cast<C&>(p);
+        std::cout << "It is C" << std::endl;
+        return;
+    } catch (...) {}
+
+    std::cout << "Unknown type" << std::endl;
+}
 
 int main()
 {
     Base *p = generate();
-    identify(p);
+
+ 
+    identify(*p);
     delete p;
     return (0);
 }
