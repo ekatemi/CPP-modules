@@ -66,6 +66,21 @@ ScalarConverter::~ScalarConverter() {};
 //     // }
 // }
 
+int typeDetector(std::string str)
+{
+    bool allDigits = true;
+    for (int i = 0; i < str.length(); i++)
+    {
+        if (!std::isdigit(static_cast<unsigned char>(str[i])))
+        {
+            allDigits = false;
+            break;
+        }
+    }
+    if (allDigits)
+        return 1;
+}
+
 void ScalarConverter::convert(std::string str)
 {
 
