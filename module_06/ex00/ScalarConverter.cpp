@@ -89,28 +89,51 @@ bool isInt(std::string str)
 
 int isDoubleOrFloat(std::string str)
 {
+    if (str.empty())
+        return 0;
 
-    size_t t = 0;
-    if (str[t] == '-' || str[t] == '+')
-        t++;
-    for (size_t i = t; i < str.length(); i++)
+    bool has_dot = false;
+    bool has_digit = false;
+    bool has_f_suffix = false;
+
+    size_t i = 0;
+
+    // Handle optional sign
+    if (str[i] == '+' || str[i] == '-')
+        i++;
+
+    while (i < str.length())
     {
-        if (!std::isdigit((str[i])) && str[i] != '.')
+        if (str[i] == '.')
         {
-            return 0;
+            if (has_dot) // already found one dot
+                return 0;
+            has_dot = true;
         }
-
-        if (str[i] == '.' &&  (i ==) !std::isdigit(str[i + 1])
-            && !std::isdigit(str[i + 1]))
+        else if (str[i] == 'f' && i == str.length() - 1)
         {
-            std::cout << "Not a proper double" << std::endl;
-            return 0;
+            has_f_suffix = true;
         }
-        if(str[str.length() - 1] == 'f')
-            return 2; //float
-        return 1; //double
+        else if (std::isdigit(static_cast<unsigned char>(str[i])))
+        {
+            has_digit = true;
+        }
+        else
+        {
+            return 0; // invalid character
+        }
+        i++;
     }
-    return 0; //not double or float
+
+    if (!has_digit)
+        return 0; // must contain at least one digit
+
+    if (!has_dot)
+        return 0; // no dot, not a float or double
+
+    if (has_f_suffix)
+        return 2;
+    return 1; // 2 = float, 1 = double
 }
 
 void ScalarConverter::convert(std::string str)
@@ -153,14 +176,7 @@ void ScalarConverter::convert(std::string str)
         i = static_cast<int>(d);
         c = static_cast<char>(d);
     }
-    else
-    {
-        std::cout << "Arg non convertible" <<std::endl;
-        return ;
-    }
-         
-
-    if(str == "nan" || str == "+inf" || str == "-inf" ){
+    else if (str == "nan" || str == "+inf" || str == "-inf" ){
         std::cout << "char: Impossible" <<std::endl;
         std::cout << "int: Impossible" <<std::endl;
         d = atof(str.c_str());
@@ -180,12 +196,17 @@ void ScalarConverter::convert(std::string str)
         std::cout << "double: " << d << std::endl;
         return ;
     }
+    else
+    {
+        std::cout << "Arg non convertible" <<std::endl;
+        return ;
+    }
         
     
     if(!std::isprint(c))
         std::cout << "char: Non Displayable" <<std::endl;
     else
-        std::cout << "char: " << c <<std::endl;
+        std::cout << "char: '" << c << "'" << std::endl;
     
     if (i > INT_MAX || i < INT_MIN)
         std::cout << "int out of range" << std::endl;
@@ -197,7 +218,7 @@ void ScalarConverter::convert(std::string str)
     else
         std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
     
-    if (d > DBL_MAX || d < DBL_MIN)
+    if (d > DBL_MAX || d < -DBL_MAX)
         std::cout << "double out of range" << std::endl;
     else
         std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
