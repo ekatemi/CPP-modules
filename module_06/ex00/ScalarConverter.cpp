@@ -66,113 +66,140 @@ ScalarConverter::~ScalarConverter() {};
 //     // }
 // }
 
-int typeDetector(std::string str)
+bool isChar(std::string str)
 {
-    bool allDigits = true;
-    for (int i = 0; i < str.length(); i++)
+    if (str.length() == 1 && isalpha(str[0]))
+        return true;
+    return false;
+}
+
+bool isInt(std::string str)
+{
+    for (size_t i = 0; i < str.length(); i++)
     {
+        if (str[i] == '-' || str[i] == '+')
+            i++;
         if (!std::isdigit(static_cast<unsigned char>(str[i])))
         {
-            allDigits = false;
-            break;
+            return false;
         }
     }
-    if (allDigits)
-        return 1;
+    return true;
+}
+
+int isDoubleOrFloat(std::string str)
+{
+
+    size_t t = 0;
+    if (str[t] == '-' || str[t] == '+')
+        t++;
+    for (size_t i = t; i < str.length(); i++)
+    {
+        if (!std::isdigit((str[i])) && str[i] != '.')
+        {
+            return 0;
+        }
+
+        if (str[i] == '.' &&  (i ==) !std::isdigit(str[i + 1])
+            && !std::isdigit(str[i + 1]))
+        {
+            std::cout << "Not a proper double" << std::endl;
+            return 0;
+        }
+        if(str[str.length() - 1] == 'f')
+            return 2; //float
+        return 1; //double
+    }
+    return 0; //not double or float
 }
 
 void ScalarConverter::convert(std::string str)
 {
+    char c = ' ';
+    int i = 42;
+    float f = 0.0f;
+    double d = 0.0;
+    
+    if(isChar(str))
+    {
+        std::cout << "CASE char" <<std::endl;
+        c = str[0];
+        i = static_cast<int>(c);
+        f = static_cast<float>(c);
+        d = static_cast<double>(c);
+    }
+    else if(isInt(str))
+    {
+        std::cout << "CASE int" <<std::endl;
+        i = atoi(str.c_str());
+        c = static_cast<char>(i);
+        f = static_cast<float>(i);
+        d = static_cast<double>(i);
+    }
+    else if(isDoubleOrFloat(str) == 2) //float
+    {
+        std::cout << "CASE float" <<std::endl;
+        std::string tmp = str.substr(0, str.length() - 1);
+        f = stof(tmp);
+        d = static_cast<double>(f);
+        i = static_cast<int>(f);
+        c = static_cast<char>(f);
+    }
+    else if(isDoubleOrFloat(str) == 1) //double
+    {
+        std::cout << "CASE double" <<std::endl;
+        d = atof(str.c_str());
+        f = static_cast<float>(d);
+        i = static_cast<int>(d);
+        c = static_cast<char>(d);
+    }
+    else
+    {
+        std::cout << "Arg non convertible" <<std::endl;
+        return ;
+    }
+         
 
-    // if (str[str.length() - 1] == 'f' && (str != "inf"))
-    //     str = str.substr(0, str.length() - 1);
+    if(str == "nan" || str == "+inf" || str == "-inf" ){
+        std::cout << "char: Impossible" <<std::endl;
+        std::cout << "int: Impossible" <<std::endl;
+        d = atof(str.c_str());
+        f = static_cast<float>(d);
+        std::cout << "float: " << f << 'f' << std::endl;
+        std::cout << "double: " << d << std::endl;
+        return ;
+    }
+    else if(str == "+inff" || str == "-inff" || str == "nanf") //float
+    {
+        std::string tmp = str.substr(0, str.length() - 1);
+        f = stof(tmp);
+        d = static_cast<double>(f);
+        std::cout << "char: Impossible" <<std::endl;
+        std::cout << "int: Impossible" <<std::endl;
+        std::cout << "float: " << f << 'f' << std::endl;
+        std::cout << "double: " << d << std::endl;
+        return ;
+    }
+        
+    
+    if(!std::isprint(c))
+        std::cout << "char: Non Displayable" <<std::endl;
+    else
+        std::cout << "char: " << c <<std::endl;
+    
+    if (i > INT_MAX || i < INT_MIN)
+        std::cout << "int out of range" << std::endl;
+    else
+        std::cout << "int: " << i <<std::endl;
+    
+    if (f > FLT_MAX || f < -FLT_MAX)
+        std::cout << "float out of range" << std::endl;
+    else
+        std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
+    
+    if (d > DBL_MAX || d < DBL_MIN)
+        std::cout << "double out of range" << std::endl;
+    else
+        std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
 
-    std::cout << "String is: " << str << std::endl;
-
-    // Reset errno before conversion
-    errno = 0;
-    char *endPtr = NULL;
-
-    double d = strtod(str.c_str(), &endPtr);
-    std::cout << "double is: " << std::fixed << std::setprecision(1) << d << std::endl;
-    std::cout << "endptr: " << *endPtr << std::endl;
-    if (d == HUGE_VAL)
-        std::cout << "too big" << std::endl;
-    else if (d == -HUGE_VAL)
-        std::cout << "too small" << std::endl;
-    float f = static_cast<float>(d);
-    std::cout << "float is " << f << std::endl;
-    int i = static_cast<int>(f);
-    std::cout << "int is " << i << std::endl;
-    if (f > INT_MAX || f < INT_MIN)
-        std::cout << "out of int" << std::endl;
-    char c = static_cast<char>(i);
-    std::cout << "char is " << c << std::endl;
-    // // Check if any conversion happened
-    // if (endPtr == str.c_str())
-    // {
-    //     std::cout << "invalid input (no conversion to double)" << std::endl;
-    //     return;
-    // }
-    // // Check if the whole string was converted
-    // else if (*endPtr != '\0')
-    // {
-    //     std::cout << "invalid input (leftover characters)" << std::endl;
-    //     return;
-    // }
-
-    // // Check for overflow/underflow
-    // if (errno == ERANGE)
-    // {
-    //     std::cout << "double: out of range" << std::endl;
-    //     return;
-    // }
-
-    // // Passed all checks
-    // // std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
-    // if (d > FLT_MAX || d < -FLT_MAX)
-    // {
-    //     // Overflow for float
-    //     std::cout << "float: overflow (infinity)" << std::endl;
-    //     return;
-    //     // } else if (std::isnan(d)) {
-    //     //     // Handle NaN if you want
-    //     //     std::cout << "float: nanf" << std::endl;
-    // }
-    // else
-    // {
-    //     f = static_cast<float>(d);
-    // }
-    // if (d > INT_MAX || d < INT_MIN)
-    // {
-    //     // Overflow would occur if you cast d to int
-    //     std::cout << "int: Impossible" << std::endl;
-    // }
-    // else
-    // {
-    //     i = static_cast<int>(d);
-    // }
-
-    // c = static_cast<char>(i);
-    // if (d != d)
-    //     std::cout << "char: Impossible" << std::endl;
-    // else if (!std::isprint(c))
-    //     std::cout << "char: Non displayable" << std::endl;
-
-    // else
-    //     std::cout << "char: '" << c << "'" << std::endl;
-
-    // if (d > INT_MAX || d < INT_MIN || d != d)
-    // {
-    //     // Overflow would occur if you cast d to int
-    //     std::cout << "int: Impossible" << std::endl;
-    // }
-    // else
-    // {
-    //     i = static_cast<int>(d);
-    //     std::cout << "int: " << i << std::endl;
-    // }
-
-    // std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f" << std::endl;
-    // std::cout << "double: " << std::fixed << std::setprecision(1) << d << std::endl;
 }
