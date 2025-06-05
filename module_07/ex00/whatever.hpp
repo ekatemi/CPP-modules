@@ -1,17 +1,30 @@
 #ifndef WHATEVER_HPP
-#define HEADER_HPP
+#define WHATEVER_HPP
 #include <iostream>
+#include <string>
 
-template <typename T1, typename T2, typename T3>
-
-// void iter(T1 *a, size_t len, T2 fun);
-
-void iter(T1 *arr, size_t len, T2 fun)
+template <typename T>
+T max(T a, T b)
 {
-    for (size_t i = 0; i < length; ++i)
-    {
-        func(T3 a, T3 b);
-    }
+    if (a > b)
+        return a;
+    return b;
+}
+
+template <typename T>
+T min(T a, T b)
+{
+    if (a < b)
+        return a;
+    return b;
+}
+
+template <typename T>
+void swap(T &a, T &b)
+{
+    T tmp = a;
+    a = b;
+    b = tmp;
 }
 
 #endif
