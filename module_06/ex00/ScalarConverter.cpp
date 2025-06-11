@@ -16,55 +16,6 @@ ScalarConverter &ScalarConverter::operator=(const ScalarConverter &src)
     return (*this);
 }
 ScalarConverter::~ScalarConverter() {};
-// char int float double
-
-// int parseStr(std::string str)
-// {
-//     int found = str.find('.');
-//     if (str.length() == 1 && !isdigit(str[0]) && isprint(str[0]))
-//         return 1;
-//     else if (str[str.length() - 1] == 'f' && found != std::string::npos)
-//         return 2;
-//     else if (found != std::string::npos && found != 0 && found != str.length() - 1)
-//         return 3;
-// }
-
-// void convertToChar(std::string str)
-// {
-//     if (str[str.length() - 1] == 'f')
-//         str = str.substr(0, str.length() - 1);
-
-//     float f = static_cast<float>(atof(str.c_str()));
-//     double d = static_cast<double>(f);
-//     int i = static_cast<int>(i);
-//     char c = static_cast<char>(c);
-
-//     // if (str.length() == 1 && !isdigit(str[0]) && isprint(str[0]))
-//     // {
-//     //     std::cout << "'" << str[0] << "'" << std::endl;
-//     // }
-//     // else
-//     // else
-//     // {
-//     //     try
-//     //     {
-//     //         int num = stoi(str);
-//     //         char ch = static_cast<char>(num);
-//     //         if (!isprint(ch))
-//     //             std::cout << "non displayable" << std::endl;
-//     //         else
-//     //             std::cout << "'" << ch << "'" << std::endl;
-//     //     }
-//     //     catch (const std::invalid_argument &e)
-//     //     {
-//     //         std::cout << "impossible" << std::endl;
-//     //     }
-//     //     catch (const std::out_of_range &e)
-//     //     {
-//     //         std::cout << "argument out of range" << std::endl;
-//     //     }
-//     // }
-// }
 
 bool isChar(std::string str)
 {
@@ -145,7 +96,7 @@ void ScalarConverter::convert(std::string str)
     
     if(isChar(str))
     {
-        std::cout << "CASE char" <<std::endl;
+        //std::cout << "CASE char" <<std::endl;
         c = str[0];
         i = static_cast<int>(c);
         f = static_cast<float>(c);
@@ -153,7 +104,7 @@ void ScalarConverter::convert(std::string str)
     }
     else if(isInt(str))
     {
-        std::cout << "CASE int" <<std::endl;
+        //std::cout << "CASE int" <<std::endl;
         i = atoi(str.c_str());
         c = static_cast<char>(i);
         f = static_cast<float>(i);
@@ -161,16 +112,16 @@ void ScalarConverter::convert(std::string str)
     }
     else if(isDoubleOrFloat(str) == 2) //float
     {
-        std::cout << "CASE float" <<std::endl;
+        //std::cout << "CASE float" <<std::endl;
         std::string tmp = str.substr(0, str.length() - 1);
-        f = stof(tmp);
+        f = atof(tmp.c_str());
         d = static_cast<double>(f);
         i = static_cast<int>(f);
         c = static_cast<char>(f);
     }
     else if(isDoubleOrFloat(str) == 1) //double
     {
-        std::cout << "CASE double" <<std::endl;
+        //std::cout << "CASE double" <<std::endl;
         d = atof(str.c_str());
         f = static_cast<float>(d);
         i = static_cast<int>(d);
@@ -188,7 +139,7 @@ void ScalarConverter::convert(std::string str)
     else if(str == "+inff" || str == "-inff" || str == "nanf") //float
     {
         std::string tmp = str.substr(0, str.length() - 1);
-        f = stof(tmp);
+        f = atof(tmp.c_str());
         d = static_cast<double>(f);
         std::cout << "char: Impossible" <<std::endl;
         std::cout << "int: Impossible" <<std::endl;
