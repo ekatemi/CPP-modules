@@ -1,5 +1,7 @@
 #ifndef ARRAY_HPP
 #define ARRAY_HPP
+#include <iostream>
+#include <exception>
 
 // Construction with no parameter: Creates an empty array.
 // • Construction with an unsigned int n as a parameter: Creates an array of n elements
@@ -24,6 +26,7 @@ private:
 public:
     Array() : el(NULL), len(0) {};
     Array(unsigned int n) : el(new T[n]()), len(n) {};
+
     Array(const Array &src) : el(new T[src.len]), len(src.len)
     {
         for (unsigned int i = 0; i < len; i++)
@@ -45,12 +48,20 @@ public:
         }
         return *this;
     };
-    ~Array() { delete[] el };
+    ~Array() { delete[] el; };
 
     int size() const
     {
         return len;
     };
+
+    // [] overload
+    T &operator[](int idx)
+    {
+        if (static_cast<unsigned int>(idx) >= len)
+            throw std::out_of_range("Index out of bounds");
+        return el[idx];
+    }
 };
 
 #endif
