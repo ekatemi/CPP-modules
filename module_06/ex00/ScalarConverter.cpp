@@ -1,7 +1,5 @@
 #include "ScalarConverter.hpp"
 #include <limits>
-#include <cmath>
-#include <cerrno>
 #include <cfloat>
 #include <climits>
 
@@ -90,7 +88,7 @@ int isDoubleOrFloat(std::string str)
 void ScalarConverter::convert(std::string str)
 {
     char c = ' ';
-    int i = 42;
+    long i = 42;
     float f = 0.0f;
     double d = 0.0;
     
@@ -104,8 +102,11 @@ void ScalarConverter::convert(std::string str)
     }
     else if(isInt(str))
     {
-        //std::cout << "CASE int" <<std::endl;
-        i = atoi(str.c_str());
+        std::cout << "CASE int" <<std::endl;
+        // long val = std::strtol(str.c_str(), NULL, 10);
+        // if(!validInt(val))
+        //     return ;
+        i = std::strtol(str.c_str(), NULL, 10);
         c = static_cast<char>(i);
         f = static_cast<float>(i);
         d = static_cast<double>(i);
@@ -160,7 +161,7 @@ void ScalarConverter::convert(std::string str)
         std::cout << "char: '" << c << "'" << std::endl;
     
     if (i > INT_MAX || i < INT_MIN)
-        std::cout << "int out of range" << std::endl;
+        std::cout << "int: out of range" << std::endl;
     else
         std::cout << "int: " << i <<std::endl;
     
