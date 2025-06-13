@@ -1,10 +1,9 @@
 #ifndef ARRAY_HPP
-#define ARRAY_HPP
+# define ARRAY_HPP
+
 #include <iostream>
 #include <exception>
-
 #include <cstdlib>
-//#include <ctime>
 
 // Construction with no parameter: Creates an empty array.
 // • Construction with an unsigned int n as a parameter: Creates an array of n elements
@@ -22,49 +21,49 @@
 template <typename T>
 class Array
 {
-private:
-    T *el;
-    unsigned int len;
+    private:
+        T *el;
+        unsigned int len;
 
-public:
-    Array() : el(NULL), len(0) {};
-    Array(unsigned int n) : el(new T[n]()), len(n) {};
+    public:
+        Array() : el(NULL), len(0) {};
+        Array(unsigned int n) : el(new T[n]()), len(n) {};
 
-    Array(const Array &src) : el(new T[src.len]), len(src.len)
-    {
-        for (unsigned int i = 0; i < len; i++)
+        Array(const Array &src) : el(new T[src.len]), len(src.len)
         {
-            el[i] = src.el[i];
-        }
-    };
-    Array &operator=(const Array &src)
-    {
-        if (this != &src)
-        {
-            delete[] el;
-            len = src.len;
-            el = new T[len];
-            for (std::size_t i = 0; i < len; ++i)
+            for (unsigned int i = 0; i < len; i++)
             {
                 el[i] = src.el[i];
             }
+        };
+        Array &operator=(const Array &src)
+        {
+            if (this != &src)
+            {
+                delete[] el;
+                len = src.len;
+                el = new T[len];
+                for (std::size_t i = 0; i < len; ++i)
+                {
+                    el[i] = src.el[i];
+                }
+            }
+            return *this;
+        };
+        ~Array() { delete[] el; };
+
+        int size() const
+        {
+            return len;
+        };
+
+        // [] overload
+        T &operator[](int idx)
+        {
+            if (static_cast<unsigned int>(idx) >= len)
+                throw std::out_of_range("Index out of bounds");
+            return el[idx];
         }
-        return *this;
-    };
-    ~Array() { delete[] el; };
-
-    int size() const
-    {
-        return len;
-    };
-
-    // [] overload
-    T &operator[](int idx)
-    {
-        if (static_cast<unsigned int>(idx) >= len)
-            throw std::out_of_range("Index out of bounds");
-        return el[idx];
-    }
 };
 
 #endif
