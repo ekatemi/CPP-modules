@@ -4,11 +4,13 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <exception>
+//#include <stdexcept>
 
 class Span
 {
 private:
-    std::vector<int> num;
+    std::vector<unsigned int> num;
     int max_size;
 
 public:
@@ -17,6 +19,10 @@ public:
     Span(const Span &src);
     Span &operator=(const Span &src);
     ~Span();
+
+    void addNumber(unsigned int n);
+    unsigned int shortestSpan();
+    unsigned intlongestSpan();
 };
 
 #endif
