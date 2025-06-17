@@ -2,7 +2,11 @@
 #include <limits>
 
 Span::Span() : max_size(0) {}
-Span::Span(unsigned int n) : max_size(n) {}
+Span::Span(unsigned int n) : max_size(n) {
+    if (n > 1000000)
+        throw std::logic_error("Suspiciously large Span size — did you pass a negative number?");
+}
+
 Span::Span(const Span &src)
 {
     // max_size = src.max_size;
@@ -20,64 +24,38 @@ Span &Span::operator=(const Span &src)
 }
 Span::~Span() {};
 
-void Span::addNumber(unsigned int n)
+void Span::addNumber(int n)
 {
-    try
-    {
-        if (n > std::numeric_limits<unsigned int>::max())
-            throw std::overflow_error("Not unsigned int");
-
-        if (static_cast<int>(num.size()) < max_size)
-            num.push_back(n);
-        else
-            throw std::logic_error("No space in vector");
-    }
-    catch (const std::overflow_error &e)
-    {
-        std::cerr << "Overflow error: " << e.what() << std::endl;
-    }
-    catch (const std::logic_error &e)
-    {
-        std::cerr << "Logic error: " << e.what() << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Unknown error: " << e.what() << std::endl;
-    }
+    if (num.size() < max_size)
+        num.push_back(n);
+    else
+        throw std::logic_error("No space in vector");
 }
 
 unsigned int Span::longestSpan()
 {
     unsigned int res = 0;
-    try
-    {
-        if (num.empty() || num.size() == 1)
-            throw std::logic_error("Less than 2 members");
-        sort(num.begin(), num.end());
-        res = *(num.end() - 1) - *(num.begin());
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Logic error in longest span: " << e.what() << '\n';
-        res = 0;
-    }
+    if (num.empty() || num.size() == 1)
+        throw std::logic_error("Less than 2 members in vector");
+    sort(num.begin(), num.end());
+    res = *(num.end() - 1) - *(num.begin());
     return res;
 }
 
 unsigned int Span::shortestSpan()
 {
-    unsigned int res = 0;
-    try
-    {
-        if (num.empty() || num.size() == 1)
-            throw std::logic_error("Less than 2 members");
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Logic error: " << e.what() << '\n';
-    }
-
+    int res = 0;
+    if (num.empty() || num.size() == 1)
+        throw std::logic_error("Less than 2 members");
     sort(num.begin(), num.end());
-    res = *(num.begin() + 1) - *(num.begin());
+    res = num[1] - num[0];
+    std::vector<int>::iterator it;
+    for (it = num.begin(); it != num.end(); ++it) {
+        if(it + 1 != num.end() && (*(it + 1) - *it) < res)
+        {
+            res = *(it + 1) - *it;
+        }
+    }
+    
     return res;
 }
