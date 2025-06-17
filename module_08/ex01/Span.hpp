@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <exception>
-//#include <stdexcept>
+// #include <stdexcept>
 
 class Span
 {
@@ -22,7 +22,7 @@ public:
 
     void addNumber(unsigned int n);
     unsigned int shortestSpan();
-    unsigned intlongestSpan();
+    unsigned int longestSpan();
 };
 
 #endif
