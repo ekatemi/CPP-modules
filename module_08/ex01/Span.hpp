@@ -21,7 +21,8 @@ public:
     ~Span();
 
     void addNumber(int n);
-    void addRange();
+    void addRange(int *arrNum);
+    // void addRandomRange();
     unsigned int shortestSpan();
     unsigned int longestSpan();
 };

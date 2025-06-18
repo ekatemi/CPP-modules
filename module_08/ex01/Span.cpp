@@ -2,7 +2,8 @@
 #include <limits>
 
 Span::Span() : max_size(0) {}
-Span::Span(unsigned int n) : max_size(n) {
+Span::Span(unsigned int n) : max_size(n)
+{
     if (n > 1000000)
         throw std::logic_error("Suspiciously large Span size — did you pass a negative number?");
 }
@@ -32,6 +33,11 @@ void Span::addNumber(int n)
         throw std::logic_error("No space in vector");
 }
 
+void addRange(int *arrNum)
+{
+    for ()
+}
+
 unsigned int Span::longestSpan()
 {
     unsigned int res = 0;
@@ -50,12 +56,13 @@ unsigned int Span::shortestSpan()
     sort(num.begin(), num.end());
     res = num[1] - num[0];
     std::vector<int>::iterator it;
-    for (it = num.begin(); it != num.end(); ++it) {
-        if(it + 1 != num.end() && (*(it + 1) - *it) < res)
+    for (it = num.begin(); it != num.end(); ++it)
+    {
+        if (it + 1 != num.end() && (*(it + 1) - *it) < res)
         {
             res = *(it + 1) - *it;
         }
     }
-    
+
     return res;
 }
