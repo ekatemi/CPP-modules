@@ -8,11 +8,11 @@
 
 template <typename T>
 
-int easyfind(T &v, int n)
+int easyfind(T &container, int n)
 {
     typename T::iterator it = find(v.begin(), v.end(), n);
     if (it == v.end())
-        throw std::out_of_range("Element not found!");
+        throw std::runtime_error("Element not found!");
     return std::distance(v.begin(), it);
 }
 
