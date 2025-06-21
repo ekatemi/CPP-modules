@@ -1,12 +1,9 @@
 #include "Span.hpp"
+#include <ctime> 
 #include <limits>
 
 Span::Span() : max_size(0) {}
-Span::Span(unsigned int n) : max_size(n)
-{
-    if (n > 1000000)
-        throw std::logic_error("Suspiciously large Span size — did you pass a negative number?");
-}
+Span::Span(unsigned int n) : max_size(n) {}
 
 Span::Span(const Span &src)
 {
@@ -33,36 +30,64 @@ void Span::addNumber(int n)
         throw std::logic_error("No space in vector");
 }
 
-void addRange(int *arrNum)
+// void Span::addRange(int *arrNum)
+// {
+//     std::copy(arrNum, arrNum + num.size(), num.begin());
+// }
+
+int RandomNumber () { return (std::rand()%1000); }
+
+void Span::addRandomRange()
 {
-    for ()
+    unsigned int remaining = max_size - num.size();
+    if (remaining == 0)
+        return; // nothing to do
+
+    std::srand(static_cast<unsigned>(std::time(0)));
+
+    std::vector<int> randomVector(remaining);//create vector of size of empty slots
+    std::generate(randomVector.begin(), randomVector.end(), RandomNumber); //fill it with random numbers
+
+    // Append generated numbers to num (don't exceed max_size)
+    num.insert(num.end(), randomVector.begin(), randomVector.end());
 }
 
 unsigned int Span::longestSpan()
 {
-    unsigned int res = 0;
     if (num.empty() || num.size() == 1)
         throw std::logic_error("Less than 2 members in vector");
-    sort(num.begin(), num.end());
-    res = *(num.end() - 1) - *(num.begin());
-    return res;
+    //previous v
+    // sort(num.begin(), num.end());
+    // res = *(num.end() - 1) - *(num.begin());
+    
+    //with algorithms
+    int minVal = *std::min_element(num.begin(), num.end());
+    int maxVal = *std::max_element(num.begin(), num.end());
+    return maxVal - minVal;
 }
 
 unsigned int Span::shortestSpan()
 {
     int res = 0;
-    if (num.empty() || num.size() == 1)
+    if (num.size() < 2)
         throw std::logic_error("Less than 2 members");
-    sort(num.begin(), num.end());
-    res = num[1] - num[0];
-    std::vector<int>::iterator it;
-    for (it = num.begin(); it != num.end(); ++it)
-    {
-        if (it + 1 != num.end() && (*(it + 1) - *it) < res)
-        {
-            res = *(it + 1) - *it;
-        }
-    }
+    std::vector<int> sorted = num;
+    std::sort(sorted.begin(), sorted.end());
+    res = sorted[1] - sorted[0];
 
+    for (size_t i = 1; i < sorted.size() - 1; ++i)
+    {
+        int diff = sorted[i + 1] - sorted[i];
+        if (diff < res)
+            res = diff;
+    }
     return res;
+}
+
+void Span::getNum() const {
+    std::vector<int>::const_iterator it;
+    for (it = num.begin(); it != num.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
 }

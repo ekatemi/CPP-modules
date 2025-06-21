@@ -22,9 +22,12 @@ public:
 
     void addNumber(int n);
     void addRange(int *arrNum);
-    // void addRandomRange();
+    void addRandomRange();
     unsigned int shortestSpan();
     unsigned int longestSpan();
+    //helper
+    void getNum() const;
 };
+
 
 #endif

@@ -1,6 +1,6 @@
-NAME = find
+NAME = span
 CC = c++
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 SRC = main.cpp Span.cpp
 HEADER = Span.hpp
 OBJ = $(SRC:.cpp=.o)
