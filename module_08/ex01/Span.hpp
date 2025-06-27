@@ -21,13 +21,18 @@ public:
     ~Span();
 
     void addNumber(int n);
-    void addRange(int *arrNum);
+    void addArray(int *arrNum, size_t size);
+    void addRange(std::vector<int> arrNum);
     void addRandomRange();
     unsigned int shortestSpan();
     unsigned int longestSpan();
     //helper
-    void getNum() const;
+    void printNum() const;
+    unsigned int getMax() const;
+    unsigned int getFreeSlots() const;
 };
+
+std::ostream& operator << ( std::ostream& out, const Span& s );
 
 
 #endif

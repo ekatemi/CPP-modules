@@ -30,16 +30,29 @@ void Span::addNumber(int n)
         throw std::logic_error("No space in vector");
 }
 
-// void Span::addRange(int *arrNum)
-// {
-//     std::copy(arrNum, arrNum + num.size(), num.begin());
-// }
+void Span::addRange(std::vector<int> arrNum)
+{
+    unsigned int remaining = getFreeSlots();
+    if (remaining == 0)
+        return; // nothing to do
+    unsigned int to_copy = std::min(remaining, static_cast<unsigned int>(arrNum.size()));
+    num.insert(num.end(), arrNum.begin(), arrNum.begin() + to_copy);//start pos, copy from pos/to pos
+}
+
+void Span::addArray(int *arrNum, size_t size)
+{
+    unsigned int remaining = getFreeSlots();
+    if (remaining == 0)
+        return; // nothing to do
+    unsigned int to_copy = std::min(remaining, static_cast<unsigned int>(size));
+    num.insert(num.end(), arrNum, arrNum + to_copy);
+}
 
 int RandomNumber () { return (std::rand()%1000); }
 
 void Span::addRandomRange()
 {
-    unsigned int remaining = max_size - num.size();
+    unsigned int remaining = getFreeSlots();
     if (remaining == 0)
         return; // nothing to do
 
@@ -56,13 +69,15 @@ unsigned int Span::longestSpan()
 {
     if (num.empty() || num.size() == 1)
         throw std::logic_error("Less than 2 members in vector");
-    //previous v
+    //version 1
+    
     // sort(num.begin(), num.end());
     // res = *(num.end() - 1) - *(num.begin());
     
     //with algorithms
     int minVal = *std::min_element(num.begin(), num.end());
     int maxVal = *std::max_element(num.begin(), num.end());
+    std::cout << "Min/max val (just for checking): " << minVal << " / " << maxVal << std::endl;
     return maxVal - minVal;
 }
 
@@ -84,10 +99,26 @@ unsigned int Span::shortestSpan()
     return res;
 }
 
-void Span::getNum() const {
+//helper
+void Span::printNum() const {
     std::vector<int>::const_iterator it;
     for (it = num.begin(); it != num.end(); ++it) {
         std::cout << *it << " ";
     }
     std::cout << std::endl;
+}
+
+unsigned int Span::getMax() const {
+    return max_size;
+}
+
+unsigned int Span::getFreeSlots() const {
+    return max_size - num.size();
+}
+
+// <<overload to print numbers and max_size
+std::ostream& operator << ( std::ostream& out, const Span& s ) {
+    out << "Max size: " << s.getMax() << std::endl;
+    out << "Free slots: " << s.getFreeSlots() << std::endl;
+    return out;
 }
