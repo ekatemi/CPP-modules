@@ -58,7 +58,7 @@ int main()
     lstack.push_back(3);
     lstack.push_back(5);
     lstack.push_back(737);
-    //[...]
+    //reverse iterators
     lstack.push_back(0);
     std::cout << "\033[32m reverse iterator \033[0m" << std::endl;
     std::list<int>::reverse_iterator rit_b = lstack.rbegin();
