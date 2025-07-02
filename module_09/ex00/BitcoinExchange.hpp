@@ -5,16 +5,16 @@
 #include <algorithm>
 #include <map>
 
-class BitcoinExchange {
-    private:
-    public:
-    BitcoinExchange();
-    BitcoinExchange(???);
-    BitcoinExchange(const BitcoinExchange &src);
+// class BitcoinExchange {
+//     private:
+//     public:
+//     BitcoinExchange();
+//     BitcoinExchange(???);
+//     BitcoinExchange(const BitcoinExchange &src);
 
-    BitcoinExchange &operator=(const BitcoinExchange &src);
-    ~BitcoinExchange();
+//     BitcoinExchange &operator=(const BitcoinExchange &src);
+//     ~BitcoinExchange();
     
-};
+// };
 
 #endif

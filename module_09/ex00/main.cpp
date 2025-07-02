@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <iostream>
 
 //correct format 2009-01-05,0
 //check year > 2009-01-03(creation bitcoin)
@@ -40,9 +41,24 @@ bool isValidMonth(int mth) {
 }
 
 int main(int argc, char *argv[]) {
-    if (argc)
-    
-    
+    if (argc != 2) {
+        std::cout << "wrong args" << std::endl;
+        return 1;
+    }
+
+    std::string file = argv[1];
+    std::ifstream infile(file.c_str());
+
+    if (!infile) {
+        std::cerr << "Failed to open file: " << file << std::endl;
+        return 1;
+    }
+
+    std::string line;
+    while (std::getline(infile, line)) {
+        std::cout << line << std::endl;
+    }
+
     return 0;
 }
 

@@ -1,8 +1,8 @@
 NAME = btc
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = main.cpp  BitcoinExchange.cpp
-HEADER =  BitcoinExchange.hpp
+SRC = main.cpp BitcoinExchange.cpp
+HEADER = BitcoinExchange.hpp
 OBJ = $(SRC:.cpp=.o)
 all: $(NAME)
 $(NAME): Makefile $(OBJ)
