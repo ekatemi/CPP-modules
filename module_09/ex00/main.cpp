@@ -40,6 +40,8 @@ bool isValidMonth(int mth) {
         return (mth >= 1 && mth <= 12);
 }
 
+//split data and price
+
 int main(int argc, char *argv[]) {
     if (argc != 2) {
         std::cout << "wrong args" << std::endl;
