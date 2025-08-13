@@ -1,5 +1,6 @@
 #include "BitcoinExchange.hpp"
 #include <iostream>
+#include <stdexcept>
 
 //correct format 2009-01-05,0
 //check year > 2009-01-03(creation bitcoin)
@@ -9,6 +10,25 @@
 // jan, mar, may, july, aug, oct, dec  1 <= day <= 31 //1,3,5,7,8,10,12
 // apr, june, sept, nov 1 <= day <= 30 //2,4,6,9,11
 // feb if isLeap 1-29, otherwise 1-28 
+
+
+
+//convert substring to int or not
+//also date can be only positive
+double toFloatConverter(std::string str)
+{
+    char *end;
+    double num = std::strtod(str.c_str(), &end);
+    if (end == str.c_str() || *end != '\n' || num < 0)
+        return -1;
+    return (num);
+}
+
+bool isVal(std::string str)
+{
+    float val = toFloatConverter(str);
+    return (val >= 0 && val <= 1000); 
+}
 
 bool isLeap(int year)
 {
@@ -40,7 +60,44 @@ bool isValidMonth(int mth) {
         return (mth >= 1 && mth <= 12);
 }
 
+
+bool parseDate(std::string line)
+{
+    size_t firstDash = line.find('-');
+    size_t secondDash = line.find('-', firstDash + 1);
+
+    std::string year  = line.substr(0, firstDash);
+    int yr = toFloatConverter(year);
+    
+    std::string month = line.substr(firstDash + 1, secondDash - firstDash - 1);
+    int mth = toFloatConverter(year);
+
+    std::string day = line.substr(secondDash + 1);
+    int d = toFloatConverter(day);
+    
+    return (isValidYear(yr) && isValidMonth(mth) && isValidDay(d, yr, mth));
+}
 //split data and price
+void parseString(std::string line, std::string &key, float &value)
+{
+    std::string date;
+    std::string val;
+    size_t del = line.find('|');
+    
+    if (del == std::string::npos)
+    {
+        std::cout << "Error: wrong format => " << line << std::endl;
+        return ;
+    }
+    
+    date  = line.substr(0, del);
+    if(parseDate(date))
+    
+    val = line.substr(del + 1);
+    if(isVal(val))
+
+}
+
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {
@@ -57,8 +114,10 @@ int main(int argc, char *argv[]) {
     }
 
     std::string line;
+    
     while (std::getline(infile, line)) {
         std::cout << line << std::endl;
+        if (parseDate())
     }
 
     return 0;
