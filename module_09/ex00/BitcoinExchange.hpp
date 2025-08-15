@@ -4,14 +4,16 @@
 #include <fstream>
 #include <algorithm>
 #include <map>
+#include <iostream>
 
 class BitcoinExchange {
     private:
-        std::map<std::string, float> db; //store db here
+        //const std::map<std::string, float> db; //store db here
         std::string _date; 
         float _amount; //value
     
 public:
+    BitcoinExchange();
     BitcoinExchange(std::string date, float amount);
     BitcoinExchange(const BitcoinExchange &src);
 
@@ -23,8 +25,9 @@ public:
     void setDate(std::string date);
 
 
-    void printRes();
+    void searchMap(std::map<std::string, float> db);
     
 };
+
 
 #endif
