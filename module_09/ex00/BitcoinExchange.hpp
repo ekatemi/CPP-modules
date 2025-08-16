@@ -24,10 +24,24 @@ public:
     void setVal(float num);
     void setDate(std::string date);
 
-
-    void searchMap(std::map<std::string, float> db);
+    void searchDb(std::map<std::string, float> db);
     
 };
+
+bool isLeap(int year);
+bool isValidYear(int yr);
+bool isValidDay(int day, int yr, int mth);
+bool isValidMonth(int mth);
+bool checkDate(std::string line);
+
+template <typename T>
+T toNumConverter(const std::string &str) {
+    char *end;
+    double num = std::strtod(str.c_str(), &end);
+    if (end == str.c_str() || *end != '\0')
+        return static_cast<T>(-3);
+    return static_cast<T>(num);
+}
 
 
 #endif
