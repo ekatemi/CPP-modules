@@ -14,7 +14,8 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &src) {
 
 BitcoinExchange::~BitcoinExchange() {}
 
-//     //methods
+/***METHODS***/
+
 void BitcoinExchange::setVal(float num) {
     if (num < 0)
     {
@@ -31,6 +32,7 @@ void BitcoinExchange::setVal(float num) {
     _amount = num;
 }
 
+/*Helpers*/
 bool isLeap(int year)
 {
     return (((year % 4 == 0) && 
@@ -94,14 +96,14 @@ void BitcoinExchange::setDate(std::string date) {
     _date = date;
 }
 
-void BitcoinExchange::searchDb(std::map<std::string, float> db) {
+bool BitcoinExchange::searchDb(std::map<std::string, float> db) {
     
     if(_date.empty() || _amount < 0)
-        return ;
+        return false;
     if (db.empty())
     {
         std::cerr << "Data base is empty" << std::endl;
-        return ; 
+        return false; 
     }
 
     std::map<std::string,float>::iterator it = db.lower_bound(_date);
@@ -110,9 +112,10 @@ void BitcoinExchange::searchDb(std::map<std::string, float> db) {
             --it;
         else  {
             std::cerr << "No previous data" << std::endl;
-            return ;
+            return false;
         }
     }
     float price = it->second;
     std::cout << _date << " => " << _amount << " = " << price * _amount << std::endl;
+    return true;
 }

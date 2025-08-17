@@ -23,16 +23,9 @@ public:
     //methods
     void setVal(float num);
     void setDate(std::string date);
-
-    void searchDb(std::map<std::string, float> db);
+    bool searchDb(std::map<std::string, float> db);
     
 };
-
-bool isLeap(int year);
-bool isValidYear(int yr);
-bool isValidDay(int day, int yr, int mth);
-bool isValidMonth(int mth);
-bool checkDate(std::string line);
 
 template <typename T>
 T toNumConverter(const std::string &str) {
