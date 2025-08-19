@@ -54,7 +54,7 @@ int main(int argc, char *argv[]) {
     
     if (!db) {
         std::cerr << "Failed to open file: " << "data.csv" << std::endl;
-        return 1;
+        return 1; //move to class
     }
 
     if (!infile) {
