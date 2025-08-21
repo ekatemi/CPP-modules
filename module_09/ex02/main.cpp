@@ -8,22 +8,17 @@ int main(int argc, char* argv[]) {
         std::cerr << "Usage: ./PmergeMe \"num1 num2 num3 ...\"" << std::endl;
         return 1;
     }
-
-    std::vector<int> numbers;
-    char* token = std::strtok(argv[1], " ");  // split by space
-    while (token) {
-        char* end;
-        long num = std::strtol(token, &end, 10);
-
-        if (*end != '\0' || num <= 0) {
-            std::cerr << "Error: invalid number '" << token << "'" << std::endl;
-            return 1;
-        }
-
-        numbers.push_back(static_cast<int>(num));
-        token = std::strtok(NULL, " ");
+    
+    try
+    {
+        PmergeMe container(argv[1]);
+        container.printVec();
+        container.printDeq();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
 
-    for (size_t i = 0; i < numbers.size(); ++i)
-        std::cout << numbers[i] << std::endl;
+    return 0;
 }
