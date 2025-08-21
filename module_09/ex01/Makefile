@@ -1,8 +1,8 @@
 NAME = RPN
 CC = c++
 FLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = main.cpp BitcoinExchange.cpp
-HEADER = BitcoinExchange.hpp
+SRC = main.cpp RPN.cpp
+HEADER = RPN.hpp
 OBJ = $(SRC:.cpp=.o)
 all: $(NAME)
 $(NAME): Makefile $(OBJ)

@@ -16,48 +16,71 @@ bool isOp(char c)
             c == '/');
 }
 
-bool charOk(char c)
-{
-    return (std::isdigit(static_cast<unsigned char>(c)) || isOp(c));
-}
-
 bool isSpace(char c)
 {
     return (c == ' ' || c == '\t');
 }
 
-void RPN::fillStack(std::string str)
-{
-    for (int i = 0; i < str.size(); i++)
-    {
-        if (isSpace(str[i]))
-            i++;
-        else if (isdigit(str[i]))
-            myStack.push(str[i]);
-        else if (isOp)
-            calcRes(); // TODO
-    }
-    if (myStack.size() !=)
+void RPN::pushStack(char c) {
+    int tmp = c - '0';
+    myStack.push(tmp); 
 }
 
-// methods
-int RPN::calcRes(const std::string str)
-{
-    int num;
-    int t1;
-    int t2;
-    for (int i = 0; i < str.size(); i++)
+int RPN::popStack() {
+    int i = 0;
+    if (!myStack.empty()) {
+        i = myStack.top();
+        myStack.pop();
+    } else 
+        throw std::runtime_error("Error: stack is empty (invalid expression)");
+    return i;
+}
+
+void RPN::calc(char op) {
+    if (myStack.size() < 2)
+        throw std::runtime_error("not enough operands");
+    int b = popStack(); //second operand
+    int a = popStack(); //first operand
+    int res;
+
+    switch (op)
     {
-        if (isdigit(static_cast<unsigned char>(str[i])))
-            num = str[i] - '0';
-        myStack.push(num);
-        else if (str[i] == '-' || str[i] == '-' || str[i] == '*' || str[i] == '/')
-        {
-            int t1 = st.top(); // get top element
-            st.pop();
-            int t2 = st.top(); // get top element
-            st.pop();
-            num =
-        }
+    case ('+'):
+        res = a + b;
+        break;
+    case ('-'):
+        res = a - b;
+        break;
+    case ('*'):
+        res = a * b;
+        break;
+    case ('/'):
+        if (b == 0)
+            throw std::runtime_error("Error: Division by 0");
+        res = a / b;
+        break;
+    default:
+        throw std::runtime_error(("Error: unrecognised input ") + op);
     }
+    myStack.push(res);
+}
+
+void RPN::printRes(std::string str)
+{
+    for (size_t i = 0; i < str.size(); i++)
+    {
+        if(isSpace(str[i]))
+            continue;
+        else if (isdigit(str[i]))
+            pushStack(str[i]);
+        else if (isOp(str[i]))
+            calc(str[i]);
+        else
+            throw std::runtime_error(std::string("Wrong char"));
+    }
+
+    if (myStack.size() != 1)
+        throw std::runtime_error("no more operators for operands"); //maybe not here
+    int res = myStack.top();
+    std::cout << res << std::endl;
 }

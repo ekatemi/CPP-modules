@@ -16,8 +16,10 @@ public:
     ~RPN();
 
     // methods
-    void fillStack(std::string str);
-    int calcRes(std::string str);
+    void pushStack(char c);
+    int popStack();
+    void calc(char op);
+    void printRes(std::string str);
 };
 
 #endif
