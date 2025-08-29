@@ -1,19 +1,12 @@
 #include "PmergeMe.hpp"
 
 PmergeMe::PmergeMe(): vec(), deq() {}
+
 PmergeMe::PmergeMe(char *input) {
     std::istringstream iss((std::string(input)));
-    std::string token;
+    long long num;
 
-    while (iss >> token) {
-        char *end;
-        long num = std::strtol(token.c_str(), &end, 10);
-
-        // check if entire string was valid digits
-        if (*end != '\0') {
-            throw std::runtime_error("Error: invalid token '" + token + "'");
-        }
-
+    while (iss >> num) {
         // check for range
         if (num <= 0) {
             throw std::runtime_error("Error: only positive integers allowed.");
@@ -24,6 +17,9 @@ PmergeMe::PmergeMe(char *input) {
 
         vec.push_back(static_cast<int>(num));
         deq.push_back(static_cast<int>(num));
+    }
+    if (!iss.eof()) {
+        throw std::runtime_error("Error: invalid input (non-integer token).");
     }
 }
 

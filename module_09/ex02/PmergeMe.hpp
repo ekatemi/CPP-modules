@@ -5,6 +5,8 @@
 #include <sstream>
 #include <vector>
 #include <deque>
+#include <algorithm>
+#include <climits>
 
 class PmergeMe
 {
