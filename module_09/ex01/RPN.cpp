@@ -65,22 +65,51 @@ void RPN::calc(char op) {
     myStack.push(res);
 }
 
+// void RPN::printRes(std::string str)
+// {
+//     for (size_t i = 0; i < str.size(); i++)
+//     {
+//         if(isSpace(str[i]))
+//             continue;
+//         else if (isdigit(str[i]))
+//             pushStack(str[i]);
+//         else if (isOp(str[i]))
+//             calc(str[i]);
+//         else
+//             throw std::runtime_error(std::string("Wrong char"));
+//     }
+
+//     if (myStack.size() != 1)
+//         throw std::runtime_error("no more operators for operands"); //maybe not here
+//     int res = myStack.top();
+//     std::cout << res << std::endl;
+// }
+
 void RPN::printRes(std::string str)
 {
-    for (size_t i = 0; i < str.size(); i++)
+    std::istringstream iss(str);
+    std::string token;
+
+    while (iss >> token)  // read whitespace-delimited tokens
     {
-        if(isSpace(str[i]))
-            continue;
-        else if (isdigit(str[i]))
-            pushStack(str[i]);
-        else if (isOp(str[i]))
-            calc(str[i]);
-        else
-            throw std::runtime_error(std::string("Wrong char"));
+        if (token.size() == 1 && isOp(token[0])) {
+            // it's an operator like + - * /
+            calc(token[0]);
+        } else {
+            // try to parse as number (can be multi-digit or negative)
+            char *endptr;
+            long num = std::strtol(token.c_str(), &endptr, 10);
+
+            if (*endptr != '\0') {
+                throw std::runtime_error("Invalid token: " + token);
+            }
+            pushStack(static_cast<int>(num) + '0');
+        }
     }
 
     if (myStack.size() != 1)
-        throw std::runtime_error("no more operators for operands"); //maybe not here
+        throw std::runtime_error("no more operators for operands");
+
     int res = myStack.top();
     std::cout << res << std::endl;
 }

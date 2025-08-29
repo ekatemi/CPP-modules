@@ -3,6 +3,8 @@
 
 #include <iostream> // std::cout
 #include <stack>    // std::stack
+#include <sstream>
+#include <algorithm>
 
 class RPN
 {
