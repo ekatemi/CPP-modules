@@ -41,10 +41,12 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src)
 
 PmergeMe::~PmergeMe() {}
 
-void PmergeMe::printVec() const
+void PmergeMe::printVec(std::string str) const
 {
+    std::cout << str;
     for (int i = 0; i < static_cast<int>(vec.size()); i++)
-        std::cout << vec[i] << std::endl;
+        std::cout << vec[i] << " ";
+    std::cout << std::endl;
 }
 void PmergeMe::printDeq() const
 {
@@ -52,18 +54,56 @@ void PmergeMe::printDeq() const
         std::cout << deq[i] << std::endl;
 }
 
+//helper
+
+std::vector<int> makePair(int i, int j)
+{
+    std::vector<int> pair;
+    pair.push_back(i);
+    pair.push_back(j);
+    return pair;
+}
+
 void PmergeMe::pmergeVec()
 {
-    for (int i = 0; i < vec.size() - 1; i += 2)
-    {
-
+    std::vector< std::vector<int> > main;
+    printVec("Before: ");
+    
+    for (size_t i = 0; i + 1 < vec.size(); i += 2) {
         if (vec[i] < vec[i + 1])
-        {
-            std::swap(vec[i], vec[i + 1]);
-        }
+            std::swap(vec[i], vec[i + 1]); // ensure big first
+        std::vector<int> pair = makePair(vec[i], vec[i + 1]);
+        main.push_back(pair);
     }
 
-    // vector sorted in pairs
+    // Handle odd leftover
+    if (vec.size() % 2 != 0) {
+        std::vector<int> pair = makePair(vec.back(), 0);
+        main.push_back(pair);
+    }
 
-    /// other code
+    std::sort(main.begin(), main.end());
+    
+    std::vector<unsigned int> sorted;
+
+    for (size_t i = 0; i < main.size(); i++)
+        sorted.push_back(main[i][0]); // bigs
+
+// 2. Insert smalls before their own bigs
+    for (size_t i = 0; i < main.size(); i++) {
+        int big = main[i][0];
+        int small = main[i][1];
+
+        if (small == 0) continue; // skip sentinel
+
+        std::vector<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
+        std::vector<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
+        sorted.insert(insertPos, small);
+}
+
+// 3. Copy back to vec
+    vec = sorted;
+    printVec("After: ");
+   
+    
 }
