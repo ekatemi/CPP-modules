@@ -76,6 +76,9 @@
         "__tuple": "cpp",
         "chrono": "cpp",
         "fstream": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "span": "cpp",
+        "list": "cpp",
+        "map": "cpp"
     }
 }
