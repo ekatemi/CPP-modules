@@ -4,6 +4,7 @@
 #include <iostream> // std::cout
 #include <sstream>
 #include <vector>
+#include <set>
 #include <deque>
 #include <algorithm>
 #include <climits>
@@ -25,7 +26,7 @@ public:
     void printVec() const;
     void printDeq() const;
 
+    void pmergeVec();
 };
 
 #endif
-
