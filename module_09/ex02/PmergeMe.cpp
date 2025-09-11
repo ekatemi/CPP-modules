@@ -134,18 +134,16 @@ void PmergeMe::pmergeVec()
         size_t start = (j == 0) ? 1 : jacob[j-1] + 1;
         size_t end = (jacob[j] < main_chain.size()) ? jacob[j] : main_chain.size() - 1;
 
-        for (size_t k = start; k <= end; k++) {
+        for (size_t k = end + 1; k-- > start; ) {
             if (main_chain[k].second == -1 || inserted[k])
                 continue;
 
             int small = main_chain[k].second;
             int big = main_chain[k].first;
 
-            std::vector<unsigned int>::iterator bigPos = 
-                std::find(sorted.begin(), sorted.end(), big);
+            std::vector<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
 
-            std::vector<unsigned int>::iterator insertPos = 
-                std::lower_bound(sorted.begin(), bigPos, small);
+            std::vector<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
 
             sorted.insert(insertPos, small);
             inserted[k] = true;
@@ -158,11 +156,9 @@ void PmergeMe::pmergeVec()
             int small = main_chain[i].second;
             int big = main_chain[i].first;
 
-            std::vector<unsigned int>::iterator bigPos = 
-                std::find(sorted.begin(), sorted.end(), big);
+            std::vector<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
 
-            std::vector<unsigned int>::iterator insertPos = 
-                std::lower_bound(sorted.begin(), bigPos, small);
+            std::vector<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
 
             sorted.insert(insertPos, small);
         }
@@ -216,3 +212,5 @@ void PmergeMe::pmergeDeq()
     deq = sorted;
     printDeq("After: ");   
 }
+
+// ./PmergeMe "`shuf -i 1-100000 -n 3000 | tr '\n' ' '`"
