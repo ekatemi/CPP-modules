@@ -121,12 +121,11 @@ void PmergeMe::pmergeVec()
 // }
 // Step 4: Insert smalls using Jacobsthal sequence
     std::vector<size_t> jacob = jacobsthalSeq(main_chain.size());
-    std::vector<bool> inserted(main_chain.size(), false);
 
     // Insert first small element if exists
     if (main_chain[0].second != -1) {
         sorted.insert(sorted.begin(), main_chain[0].second);
-        inserted[0] = true;
+        main_chain[0].second = -1;
     }
 
     // Insert remaining elements using Jacobsthal sequence
@@ -135,24 +134,23 @@ void PmergeMe::pmergeVec()
         size_t end = (jacob[j] < main_chain.size()) ? jacob[j] : main_chain.size() - 1;
 
         for (size_t k = end + 1; k-- > start; ) {
-            if (main_chain[k].second == -1 || inserted[k])
+            if (main_chain[k].second == -1)
                 continue;
 
             int small = main_chain[k].second;
             int big = main_chain[k].first;
 
             std::vector<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
-
             std::vector<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
 
             sorted.insert(insertPos, small);
-            inserted[k] = true;
+            main_chain[k].second = -1;
         }
     }
 
     // Insert any remaining unprocessed elements
     for (size_t i = 0; i < main_chain.size(); i++) {
-        if (main_chain[i].second != -1 && !inserted[i]) {
+        if (main_chain[i].second != -1 ) {
             int small = main_chain[i].second;
             int big = main_chain[i].first;
 
@@ -165,7 +163,6 @@ void PmergeMe::pmergeVec()
     }
 
     // Step 5: Copy back to vec
-    
     vec = sorted;
     printVec("After: "); 
 }
@@ -194,20 +191,47 @@ void PmergeMe::pmergeDeq()
     for (size_t i = 0; i < main_chain.size(); i++)
         sorted.push_back(main_chain[i].first); // bigs
 
-    std::vector<size_t> order = jacobsthalSeq(main_chain.size());
+    std::vector<size_t> jacob = jacobsthalSeq(main_chain.size());
 
-    for (size_t j = 0; j < order.size(); j++) {
-        size_t i = order[j];
-        int big = main_chain[i].first;
-        int small = main_chain[i].second;
-
-        if (small == -1) continue;
-
-        std::deque<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
-        std::deque<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
-        sorted.insert(insertPos, small);
+    // Insert first small element if exists
+    if (main_chain[0].second != -1) {
+        sorted.insert(sorted.begin(), main_chain[0].second);
+        main_chain[0].second = -1;
     }
 
+    // Insert remaining elements using Jacobsthal sequence
+    for (size_t j = 0; j < jacob.size(); j++) {
+        size_t start = (j == 0) ? 1 : jacob[j-1] + 1;
+        size_t end = (jacob[j] < main_chain.size()) ? jacob[j] : main_chain.size() - 1;
+
+        for (size_t k = end + 1; k-- > start; ) {
+            if (main_chain[k].second == -1)
+                continue;
+
+            int small = main_chain[k].second;
+            int big = main_chain[k].first;
+
+            std::deque<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
+            std::deque<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
+
+            sorted.insert(insertPos, small);
+            main_chain[k].second = -1;
+        }
+    }
+
+    // Insert any remaining unprocessed elements
+    for (size_t i = 0; i < main_chain.size(); i++) {
+        if (main_chain[i].second != -1 ) {
+            int small = main_chain[i].second;
+            int big = main_chain[i].first;
+
+            std::deque<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
+
+            std::deque<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
+
+            sorted.insert(insertPos, small);
+        }
+    }
 // 3. Copy back to vec
     deq = sorted;
     printDeq("After: ");   
