@@ -67,7 +67,6 @@ size_t PmergeMe::getSize() const {
     return size;
 }
 
-
 std::vector<size_t> jacobsthalSeq(size_t n) {
     std::vector<size_t> seq;
     size_t j0 = 0, j1 = 1;
@@ -115,7 +114,6 @@ void PmergeMe::pmergeVec()
     // Insert first small element if it exists
     if (pending.size() > 0 && pending[0].second != -1) {
         sorted.insert(sorted.begin(), pending[0].second);
-        //pending[0].second = -1; // Mark as inserted
     }
     
     // Use Jacobsthal sequence to determine insertion order
@@ -140,15 +138,14 @@ void PmergeMe::pmergeVec()
     for (size_t i = lastProcessed + 1; i < pending.size(); ++i) {
         if (pending[i].second != -1) {
             int val = pending[i].second;
-            std::vector<unsigned int>::iterator pos = 
-                std::lower_bound(sorted.begin(), sorted.end(), val);
+            std::vector<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), sorted.end(), val);
             sorted.insert(pos, val);
         }
     }
     
     // Step 5: Copy back to vec
     vec = sorted;
-    printVec("After: ");
+    printVec("After : ");
 }
    
 
@@ -179,48 +176,41 @@ void PmergeMe::pmergeDeq()
 
     std::vector<size_t> jacob = jacobsthalSeq(pending.size());
 
-    // Insert first small element if exists
-    if (pending[0].second != -1) {
+        // Insert first small element if it exists
+    if (pending.size() > 0 && pending[0].second != -1) {
         sorted.insert(sorted.begin(), pending[0].second);
-        pending[0].second = -1;
     }
-
-    // Insert remaining elements using Jacobsthal sequence
-    for (size_t j = 0; j < jacob.size(); j++) {
-        size_t start = (j == 0) ? 1 : jacob[j-1] + 1;
-        size_t end = (jacob[j] < pending.size()) ? jacob[j] : pending.size() - 1;
-
-        for (size_t k = end + 1; k-- > start; ) {
-            if (pending[k].second == -1)
-                continue;
-
-            int small = pending[k].second;
-            int big = pending[k].first;
-
-            std::deque<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
-            std::deque<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
-
-            sorted.insert(insertPos, small);
-            pending[k].second = -1;
+    
+    // Use Jacobsthal sequence to determine insertion order
+    size_t lastProcessed = 0;
+    
+    for(size_t i = 0; i < jacob.size(); ++i) {
+        size_t jacobIndex = jacob[i];
+        if (jacobIndex >= pending.size()) continue;
+        
+        // Insert elements from jacobIndex down to lastProcessed + 1
+        for (size_t j = jacobIndex; j > lastProcessed; --j) {
+            if (j < pending.size() && pending[j].second != -1) {
+                int val = pending[j].second;
+                std::deque<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), sorted.end(), val);
+                sorted.insert(pos, val);
+            }
         }
+        lastProcessed = jacobIndex;
     }
-
-    // Insert any remaining unprocessed elements
-    for (size_t i = 0; i < pending.size(); i++) {
-        if (pending[i].second != -1 ) {
-            int small = pending[i].second;
-            int big = pending[i].first;
-
-            std::deque<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), big);
-
-            std::deque<unsigned int>::iterator insertPos = std::lower_bound(sorted.begin(), bigPos, small);
-
-            sorted.insert(insertPos, small);
+    
+    // Insert any remaining elements that weren't covered by Jacobsthal sequence
+    for (size_t i = lastProcessed + 1; i < pending.size(); ++i) {
+        if (pending[i].second != -1) {
+            int val = pending[i].second;
+            std::deque<unsigned int>::iterator pos = 
+                std::lower_bound(sorted.begin(), sorted.end(), val);
+            sorted.insert(pos, val);
         }
     }
     // 3. Copy back to vec
     deq = sorted;
-    printDeq("After: ");   
+    printDeq("After : ");   
 }
 
 // ./PmergeMe "`shuf -i 1-100000 -n 3000 | tr '\n' ' '`"
