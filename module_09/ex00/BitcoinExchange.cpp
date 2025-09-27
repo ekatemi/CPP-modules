@@ -41,7 +41,7 @@ bool isLeap(int year)
 }
 
 bool isValidYear(int yr) {
-    return ( yr >= 2009 && yr <= 2025);
+    return ( yr >= 2008 && yr <= 2025);
 }
 
 bool isValidDay(int day, int yr, int mth) {
@@ -88,11 +88,6 @@ bool checkDate(std::string line)
 }
 
 void BitcoinExchange::setDate(std::string date) {
-    if(!checkDate(date)) {
-        std::cout << "Error: bad input => " << date << std::endl;
-        _date = "";
-        return ;
-    }
     _date = date;
 }
 

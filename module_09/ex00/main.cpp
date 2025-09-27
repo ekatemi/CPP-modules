@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
 
     std::ifstream infile(file.c_str());
 
-    std::ifstream db("data1.csv");
+    std::ifstream db("data.csv");
     
     std::map<std::string, float> dataBase;
     
@@ -86,7 +86,7 @@ int main(int argc, char *argv[]) {
         dataBase[date] = toNumConverter<float>(val); //fill db
     }
 
-
+    std::getline(infile, line);
     while (std::getline(infile, line)) { //input file handling
         if (line.empty()) continue;
         std::string date = "";
@@ -96,8 +96,7 @@ int main(int argc, char *argv[]) {
             //std::cout << "[" << date << "] [" << val << "]\n";
             in.setDate(date);
             in.setVal(toNumConverter<float>(val));
-            if (!in.searchDb(dataBase))
-                return 1;
+            in.searchDb(dataBase);
         }
 
     

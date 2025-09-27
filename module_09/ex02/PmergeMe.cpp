@@ -19,8 +19,7 @@ PmergeMe::PmergeMe(char *input)
             throw std::runtime_error("Error: number too large for int.");
         }
         // check duplicate in vec
-        if (std::find(vec.begin(), vec.end(), static_cast<int>(num)) != vec.end())
-            throw std::runtime_error("Error: duplicate number.");
+
 
         vec.push_back(static_cast<int>(num));
         deq.push_back(static_cast<int>(num));
@@ -214,4 +213,5 @@ void PmergeMe::pmergeDeq()
 }
 
 // ./PmergeMe "`shuf -i 1-100000 -n 3000 | tr '\n' ' '`"
+// ./PmergeMe "$(shuf -r -i 1-1000 -n 3000 | tr "\n" " ")"
 //./PmergeMe "1 4 2 7 3 8 45 44 43 42 41 40 35 25 24 23 21 20 19 18 17 16"

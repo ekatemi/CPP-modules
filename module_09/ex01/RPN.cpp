@@ -103,6 +103,8 @@ void RPN::printRes(std::string str)
             if (*endptr != '\0') {
                 throw std::runtime_error("Invalid token: " + token);
             }
+            if (static_cast<int>(num) > 9)
+                throw std::runtime_error("Number should be less than 10: " + token);
             pushStack(static_cast<int>(num) + '0');
         }
     }
