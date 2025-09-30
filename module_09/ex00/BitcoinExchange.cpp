@@ -1,13 +1,20 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange() : _date(""), _amount(-1) {}
-BitcoinExchange::BitcoinExchange(std::string date, float amount) : _date(date), _amount(amount) {}
-BitcoinExchange::BitcoinExchange(const BitcoinExchange &src) : _date(src._date), _amount(src._amount) {}
+BitcoinExchange::BitcoinExchange() : db(0) { }
+BitcoinExchange::BitcoinExchange(std::string &db) : {}
+BitcoinExchange::BitcoinExchange(const BitcoinExchange &src) : _date(src._date), _amount(src._amount) {
+    if (db.empty())
+    {
+        throw std::runtime_error("Data base is empty");
+    
+    }
+}
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &src) {
     if (this != &src)
     {
         _date = src._date;
         _amount = src._amount;
+        _db = src._db;
     }
     return *this;
 }

@@ -16,10 +16,10 @@ bool isOp(char c)
             c == '/');
 }
 
-bool isSpace(char c)
-{
-    return (c == ' ' || c == '\t');
-}
+// bool isSpace(char c)
+// {
+//     return (c == ' ' || c == '\t');
+// }
 
 void RPN::pushStack(char c) {
     int tmp = c - '0';
@@ -64,26 +64,6 @@ void RPN::calc(char op) {
     }
     myStack.push(res);
 }
-
-// void RPN::printRes(std::string str)
-// {
-//     for (size_t i = 0; i < str.size(); i++)
-//     {
-//         if(isSpace(str[i]))
-//             continue;
-//         else if (isdigit(str[i]))
-//             pushStack(str[i]);
-//         else if (isOp(str[i]))
-//             calc(str[i]);
-//         else
-//             throw std::runtime_error(std::string("Wrong char"));
-//     }
-
-//     if (myStack.size() != 1)
-//         throw std::runtime_error("no more operators for operands"); //maybe not here
-//     int res = myStack.top();
-//     std::cout << res << std::endl;
-// }
 
 void RPN::printRes(std::string str)
 {

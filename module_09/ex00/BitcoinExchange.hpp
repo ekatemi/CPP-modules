@@ -9,22 +9,22 @@
 
 class BitcoinExchange {
     private:
-        //const std::map<std::string, float> db; //store db here
-        std::string _date; 
+        const std::map<std::string, float> _db; //store db here
+        std::string _date;
         float _amount; //value
     
-public:
-    BitcoinExchange();
-    BitcoinExchange(std::string date, float amount);
-    BitcoinExchange(const BitcoinExchange &src);
+    public:
+        BitcoinExchange();
+        BitcoinExchange(std::string date, float amount);
+        BitcoinExchange(const BitcoinExchange &src);
 
-    BitcoinExchange &operator=(const BitcoinExchange &src);
-    ~BitcoinExchange();
+        BitcoinExchange &operator=(const BitcoinExchange &src);
+        ~BitcoinExchange();
 
-    //methods
-    void setVal(float num);
-    void setDate(std::string date);
-    bool searchDb(std::map<std::string, float> db);
+        //methods
+        void setVal(float num);
+        void setDate(std::string date);
+        bool searchDb(std::map<std::string, float> db);
     
 };
 
