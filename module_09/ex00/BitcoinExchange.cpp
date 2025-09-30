@@ -19,13 +19,13 @@ BitcoinExchange::~BitcoinExchange() {}
 void BitcoinExchange::setVal(float num) {
     if (num < 0)
     {
-        std::cout << "Error: cant be negative => " << num << std::endl;
+        std::cout << "Error: amount cant be negative => " << num << std::endl;
         _amount = -42;
         return ;
     }
         
     else if (num > 1000) {
-        std::cout << "Error: too large a number." << std::endl;
+        std::cout << "Error: amount cant be more than 1000." << std::endl;
         _amount = -42;
         return ;
     }
@@ -41,7 +41,7 @@ bool isLeap(int year)
 }
 
 bool isValidYear(int yr) {
-    return ( yr >= 2008 && yr <= 2025);
+    return ( yr <= 2025);
 }
 
 bool isValidDay(int day, int yr, int mth) {
@@ -101,16 +101,18 @@ bool BitcoinExchange::searchDb(std::map<std::string, float> db) {
         return false; 
     }
 
+    //if _date less than first entry lower_bound points to start
     std::map<std::string,float>::iterator it = db.lower_bound(_date);
-    if(it == db.end() || it->first != _date) {
+    //if _date greater than last entry lower_bound returns pointer to past last el.
+    if (it == db.end()){
+        --it;
+    }     
+    //if no exact match step back (lower_bound points to first el > date)
+    else if (it->first != _date) {
         if (it != db.begin())
             --it;
-        else  {
-            std::cerr << "No previous data" << std::endl;
-            return false;
-        }
     }
     float price = it->second;
-    std::cout << _date << " => " << _amount << " = " << price * _amount << std::endl;
+    std::cout << std::fixed << std::setprecision(3) << _date << " => " << _amount << " = " << " [check price: " << price << "] " << price * _amount << std::endl;
     return true;
 }
