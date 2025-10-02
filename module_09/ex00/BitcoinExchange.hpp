@@ -15,19 +15,18 @@ private:
     // std::string _date;
     // float _amount; // value
     bool checkDate(std::string line);
+    std::map<std::string, std::string> parseInput(std::string line);
 
 public:
     BitcoinExchange();
-    BitcoinExchange(std::string &file_name);
+    BitcoinExchange(std::string file_name);
     BitcoinExchange(const BitcoinExchange &src);
 
     BitcoinExchange &operator=(const BitcoinExchange &src);
     ~BitcoinExchange();
 
     // methods
-    void setVal(float num);
-    void setDate(std::string date);
-    bool searchDb(std::map<std::string, float> db);
+    void searchDb(std::string line);
 };
 
 template <typename T>
@@ -35,8 +34,11 @@ T toNumConverter(const std::string &str)
 {
     char *end;
     double num = std::strtod(str.c_str(), &end);
+
+    // Check: no number parsed or garbage at the end
     if (end == str.c_str() || *end != '\0')
-        return static_cast<T>(-3);
+        return static_cast<T>(-42);
+
     return static_cast<T>(num);
 }
 
