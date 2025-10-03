@@ -21,16 +21,18 @@ int main(int argc, char* argv[]) {
     {
         PmergeMe container(argv[1]);
         long start = getTimeMs();
-        container.pmergeVec();
+        const std::vector<unsigned int> vec = container.getVec();
+        container.printVec("Before: ");
+        container.PmergeMeVec(vec);
         long end = getTimeMs();
         double duration_us = double(end - start) / CLOCKS_PER_SEC * 1e6;
-        std::cout << "Time to process a range of " << container.getSize() << " elements with std::" << "vector : " << duration_us << " us" << std::endl;
+        std::cout << "Time to process a range of " << vec.size() << " elements with std::" << "vector : " << duration_us << " us" << std::endl;
         
-        start = getTimeMs();
-        container.pmergeDeq();
-        end = getTimeMs();
-        duration_us = double(end - start) / CLOCKS_PER_SEC * 1e6;
-        std::cout << "Time to process a range of " << container.getSize() << " elements with std::" << "deque : " << duration_us << " us" << std::endl;
+        // start = getTimeMs();
+        // container.pmergeDeq();
+        // end = getTimeMs();
+        // duration_us = double(end - start) / CLOCKS_PER_SEC * 1e6;
+        // std::cout << "Time to process a range of " << container.getSize() << " elements with std::" << "deque : " << duration_us << " us" << std::endl;
     }
     catch(const std::exception& e)
     {

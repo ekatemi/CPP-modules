@@ -14,7 +14,7 @@ class PmergeMe
 private:
     std::vector<unsigned int> vec;
     std::deque<unsigned int> deq;
-    std::vector<int> PmergeMe::pmergeVec(const std::vector<int> &arr);
+    
     // size_t size;
 
 public:
@@ -25,12 +25,13 @@ public:
     ~PmergeMe();
 
     // methods
-    size_t getSize() const;
+    //size_t getSize() const;
+    std::vector<unsigned int> getVec() const;
     void printVec(std::string str) const;
     void printDeq(std::string str) const;
-    void PmergeMe::sort();
+    void sort();
 
-    std::vector<int> PmergeMe::pmergeVec(const std::vector<int> &arr);
+    void PmergeMeVec(std::vector<unsigned int> &vec);
     void pmergeDeq();
 };
 
