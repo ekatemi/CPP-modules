@@ -14,7 +14,13 @@ class PmergeMe
 private:
     std::vector<unsigned int> vec;
     std::deque<unsigned int> deq;
-    
+    std::vector<unsigned int> _j_seq; // for index
+    std::vector<unsigned int> jacobstal_seq(size_t size);
+    unsigned int max; // for insertion, left is max, second in pair
+
+    unsigned int left;  // jac sequence _j_seq[i]
+    unsigned int right; // start fron vec.start() and then moving ->>>  right = left;
+
     // size_t size;
 
 public:
@@ -25,13 +31,14 @@ public:
     ~PmergeMe();
 
     // methods
-    //size_t getSize() const;
+    // size_t getSize() const;
+
     std::vector<unsigned int> getVec() const;
     void printVec(std::string str) const;
     void printDeq(std::string str) const;
-    void sort();
+    // void sort();
 
-    void PmergeMeVec(std::vector<unsigned int> &vec);
+    void PmergeMeVec();
     void pmergeDeq();
 };
 
