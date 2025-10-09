@@ -28,8 +28,8 @@ PmergeMe::PmergeMe(char *input) : max(0)
         throw std::runtime_error("Error: invalid input (non-integer token).");
     }
     _j_seq = jacobstal_seq(vec.size());
-    left = _j_seq[0];
-    right = _j_seq[1];
+    left = 0;
+    right = 0;
 }
 
 PmergeMe::PmergeMe(const PmergeMe &src) : vec(src.vec), deq(src.deq), _j_seq(src._j_seq), max(src.max), left(src.left), right(src.right) {}
@@ -40,7 +40,7 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src)
     {
         vec = src.vec;
         deq = src.deq;
-        _j_seq = src._j_seq;
+        //_j_seq = src._j_seq;
         max = src.max;
         left = src.left;
         right = src.right;
@@ -76,27 +76,22 @@ void PmergeMe::printDeq(std::string str) const
 //     return size;
 // }
 
-std::vector<unsigned int> PmergeMe::jacobstal_seq(size_t size)
+std::vector<unsigned int> PmergeMe::jacobstal_seq(unsigned int size)
 {
-    std::vector<unsigned int> res;
-    if (size == 0)
-        return res;
-
-    res.push_back(0);
-    if (size == 1)
-        return res;
-
-    res.push_back(1);
-    for (size_t i = 2;; ++i)
+    std::vector<unsigned int> seq;
+    unsigned int x = 0;
+    unsigned int y = 1;
+    seq.push_back(x);
+    seq.push_back(y);
+    for (unsigned int i = 2; i < size; ++i)
     {
-        unsigned int j = res[i - 1] + 2 * res[i - 2];
-        if (j >= size)
+        unsigned int j = seq[i - 1] + 2 * seq[i - 2];
+        if (j > size - 1)
             break;
-        res.push_back(j);
+        seq.push_back(seq[i - 1] + 2 * seq[i - 2]);
     }
-
-    res.erase(res.begin()); // start from 1
-    return res;
+    seq.erase(seq.begin() + 1);
+    return seq;
 }
 
 void PmergeMe::PmergeMeVec()
@@ -129,31 +124,59 @@ void PmergeMe::PmergeMeVec()
     // Step 3: recursively sort "bigs"
     std::vector<unsigned int> sortedBigs = bigs; // copy for recursion
     vec = sortedBigs;
-    PmergeMeVec();    // recursive call on class vec
-    sortedBigs = vec; // update local copy after recursion
+    printVec("Bigs are: ");
+    PmergeMeVec(); // recursive call on class vec
 
     // Step 4: insert smalls using Jacobsthal order
-    std::vector<unsigned int> sorted = sortedBigs;
+    std::vector<unsigned int> sorted = vec; // already sorted "bigs"
 
+    // Always insert the first small manually
+    if (!pending.empty())
+    {
+        std::vector<unsigned int>::iterator pos =
+            std::lower_bound(sorted.begin(), sorted.end(), pending[0].second); // right initialized with 0
+        sorted.insert(pos, pending[0].second);
+    }
+
+    // Use Jacobsthal sequence to determine insertion order
+    // left = 0;
     for (size_t i = 0; i < _j_seq.size(); ++i)
     {
-        size_t idx = _j_seq[i];
-        if (idx >= pending.size())
-            break;
+        right = _j_seq[i];
+        if (right >= pending.size())
+            continue;
 
-        unsigned int small = pending[idx].second;
-        std::vector<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), sorted.end(), small);
+        for (size_t j = right; j > left; --j)
+        {
+            if (j < pending.size())
+            {
+                unsigned int small = pending[j].second;
+                std::vector<unsigned int>::iterator pos =
+                    std::lower_bound(sorted.begin(), sorted.end(), small);
+                sorted.insert(pos, small);
+            }
+        }
+        left = right;
+    }
+
+    // If any smalls remain (beyond Jacobsthal coverage)
+    for (size_t j = left + 1; j < pending.size(); ++j)
+    {
+        unsigned int small = pending[j].second;
+        std::vector<unsigned int>::iterator pos =
+            std::lower_bound(sorted.begin(), sorted.end(), small);
         sorted.insert(pos, small);
     }
 
     // Step 5: insert odd if exists
     if (hasOdd)
     {
-        std::vector<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), sorted.end(), odd);
+        std::vector<unsigned int>::iterator pos =
+            std::lower_bound(sorted.begin(), sorted.end(), odd);
         sorted.insert(pos, odd);
     }
 
-    // Step 6: write back to class vec
+    // Step 6: write back
     vec = sorted;
 }
 

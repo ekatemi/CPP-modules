@@ -1,5 +1,6 @@
 #include "PmergeMe.hpp"
 #include <iostream>
+#include <iomanip>
 #include <cstring>
 #include <cctype>
 #include <sys/time.h>
@@ -18,20 +19,19 @@ int main(int argc, char *argv[])
         std::cerr << "Usage: ./PmergeMe \"num1 num2 num3 ...\"" << std::endl;
         return 1;
     }
-    std::cout << "Hi" << std::endl;
 
     try
     {
         PmergeMe container(argv[1]);
         long start = getTimeMs();
         const std::vector<unsigned int> vec = container.getVec();
-        std::cout << "Hi" << std::endl;
         container.printVec("Before: ");
         container.PmergeMeVec();
         container.printVec("After: ");
         long end = getTimeMs();
         double duration_us = double(end - start) / CLOCKS_PER_SEC * 1e6;
-        std::cout << "Time to process a range of " << vec.size() << " elements with std::" << "vector : " << duration_us << " us" << std::endl;
+        std::cout << "Time to process a range of " << vec.size() << " elements with std::" << "vector : "
+                  << std::fixed << std::setprecision(0) << duration_us << " us" << std::endl;
 
         // start = getTimeMs();
         // container.pmergeDeq();
