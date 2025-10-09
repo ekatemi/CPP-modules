@@ -252,7 +252,7 @@ void PmergeMe::PmergeMeDeq()
     {
         right = _j_seq[i];
         if (right >= pending.size())
-            continue;
+            break;
 
         for (size_t j = right; j > left; --j)
         {
@@ -261,7 +261,7 @@ void PmergeMe::PmergeMeDeq()
                 min = pending[j].first;
                 max = pending[j].second;
 
-                std::deque<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), max);
+                std::deque<unsigned int>::iterator bigPos = std::lower_bound(sorted.begin(), sorted.end(), max);
 
                 std::deque<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), bigPos, min);
                 sorted.insert(pos, min);
