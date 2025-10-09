@@ -9,6 +9,10 @@
 #include <algorithm>
 #include <climits>
 
+#define RESET "\033[0m"
+#define RED "\033[31m"
+#define GREEN "\033[32m"
+
 class PmergeMe
 {
 private:
@@ -16,10 +20,12 @@ private:
     std::deque<unsigned int> deq;
     std::vector<unsigned int> _j_seq; // for index
     std::vector<unsigned int> jacobstal_seq(unsigned int size);
-    unsigned int max; // for insertion, left is max, second in pair
-
+    unsigned int max;   // for insertion, right is max, second in pair
+    unsigned int min;   // for insertion, left is min, first in pair
     unsigned int left;  // jac sequence _j_seq[i]
     unsigned int right; // start fron vec.start() and then moving ->>>  right = left;
+    // for recursion visualization
+    int depth;
 
     // size_t size;
 
