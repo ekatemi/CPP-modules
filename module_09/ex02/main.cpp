@@ -23,21 +23,33 @@ int main(int argc, char *argv[])
     try
     {
         PmergeMe container(argv[1]);
+        
+        std::cout << "-----------CASE VECTOR------------" <<std::endl;
         long start = getTimeMs();
-        const std::vector<unsigned int> vec = container.getVec();
+        std::cout << RED;
         container.printVec("Before: ");
+        std::cout << RESET;
         container.PmergeMeVec();
+        std::cout << LIGHT_RED;
         container.printVec("After: ");
+        std::cout << RESET;
         long end = getTimeMs();
         double duration_us = double(end - start) / CLOCKS_PER_SEC * 1e6;
-        std::cout << "Time to process a range of " << vec.size() << " elements with std::" << "vector : "
-                  << std::fixed << std::setprecision(0) << duration_us << " us" << std::endl;
+        std::cout << RED << "Time to process a range of " << container.getSize() << " elements with std::" << "vector : "
+                  << std::fixed << std::setprecision(0) << duration_us << " us" << RESET << std::endl;
 
-        // start = getTimeMs();
-        // container.pmergeDeq();
-        // end = getTimeMs();
-        // duration_us = double(end - start) / CLOCKS_PER_SEC * 1e6;
-        // std::cout << "Time to process a range of " << container.getSize() << " elements with std::" << "deque : " << duration_us << " us" << std::endl;
+        std::cout << "-----------CASE DEQUE------------" <<std::endl;
+        start = getTimeMs();
+        std::cout << RED;
+        container.printDeq("Before: ");
+        std::cout << RESET;
+        container.PmergeMeDeq();
+        std::cout << LIGHT_RED;
+        container.printDeq("After: ");
+        end = getTimeMs();
+        std::cout << RESET;
+        duration_us = double(end - start) / CLOCKS_PER_SEC * 1e6;
+        std::cout << RED << "Time to process a range of " << container.getSize() << " elements with std::" << "deque : " << duration_us << " us" << RESET << std::endl;
     }
     catch (const std::exception &e)
     {

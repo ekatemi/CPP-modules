@@ -1,8 +1,8 @@
 #include "PmergeMe.hpp"
 
-PmergeMe::PmergeMe() : vec(), deq(), _j_seq(), max(0), min(0), left(0), right(0), depth(0) {}
+PmergeMe::PmergeMe() : vec(), deq(), _j_seq(), max(0), min(0), size(0), depth(0) {}
 
-PmergeMe::PmergeMe(char *input) : max(0), min(0), left(0), right(0), depth(0)
+PmergeMe::PmergeMe(char *input) : max(0), min(0), size(0), depth(0)
 {
     std::istringstream iss((std::string(input)));
     long long num;
@@ -22,6 +22,7 @@ PmergeMe::PmergeMe(char *input) : max(0), min(0), left(0), right(0), depth(0)
 
         vec.push_back(static_cast<int>(num));
         deq.push_back(static_cast<int>(num));
+        size++;
     }
     if (!iss.eof())
     {
@@ -30,7 +31,7 @@ PmergeMe::PmergeMe(char *input) : max(0), min(0), left(0), right(0), depth(0)
     _j_seq = jacobstal_seq(vec.size());
 }
 
-PmergeMe::PmergeMe(const PmergeMe &src) : vec(src.vec), deq(src.deq), _j_seq(src._j_seq), max(src.max), min(src.min), left(src.left), right(src.right), depth(src.depth) {}
+PmergeMe::PmergeMe(const PmergeMe &src) : vec(src.vec), deq(src.deq), _j_seq(src._j_seq), max(src.max), min(src.min), depth(src.depth) {}
 
 PmergeMe &PmergeMe::operator=(const PmergeMe &src)
 {
@@ -41,33 +42,19 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &src)
         _j_seq = src._j_seq;
         max = src.max;
         min = src.max;
-        left = src.left;
-        right = src.right;
         depth = src.depth;
+        size = src.size;
     }
     return *this;
 }
 
 PmergeMe::~PmergeMe() {}
 
-std::vector<unsigned int> PmergeMe::getVec() const
-{
-    return vec;
-}
-
 void PmergeMe::printVec(std::string str) const
 {
     std::cout << str;
     for (int i = 0; i < static_cast<int>(vec.size()); i++)
         std::cout << vec[i] << " ";
-    std::cout << std::endl;
-}
-
-void printPend(std::vector<std::pair<unsigned int, unsigned int>> pending)
-{
-    std::cout << "Pend is: ";
-    for (unsigned int i = 0; i < pending.size(); i++)
-        std::cout << pending[i].first << " ";
     std::cout << std::endl;
 }
 
@@ -79,11 +66,13 @@ void PmergeMe::printDeq(std::string str) const
     std::cout << std::endl;
 }
 
-// helper
-// size_t PmergeMe::getSize() const
-// {
-//     return size;
-// }
+void printPend(std::vector<std::pair<unsigned int, unsigned int> > pending)
+{
+    std::cout << "Pend is: ";
+    for (unsigned int i = 0; i < pending.size(); i++)
+        std::cout << pending[i].first << " ";
+    std::cout << std::endl;
+}
 
 std::vector<unsigned int> PmergeMe::jacobstal_seq(unsigned int size)
 {
@@ -103,14 +92,19 @@ std::vector<unsigned int> PmergeMe::jacobstal_seq(unsigned int size)
     return seq;
 }
 
+size_t PmergeMe::getSize() const {
+    return size;
+}
+
 void PmergeMe::PmergeMeVec()
 {
-    int r = 0;
+    size_t left = 0;
+    size_t right = 0;
     // Base case: stop recursion when vec has 1 or 0 elements
     if (vec.size() <= 1)
         return;
 
-    std::vector<std::pair<unsigned int, unsigned int>> pending; // for SMALL attached to its big
+    std::vector<std::pair<unsigned int, unsigned int> > pending; // for SMALL attached to its big
     std::vector<unsigned int> bigs;                             // vector for BIG
     bool hasOdd = false;                                        // odd or even amount of elements
     unsigned int odd = 0;
@@ -134,14 +128,14 @@ void PmergeMe::PmergeMeVec()
     // Step 3: recursively sort "bigs"
     std::vector<unsigned int> sortedBigs = bigs; // copy for recursion
     vec = sortedBigs;
-
-    PmergeMeVec(); // recursive call on vec class member
-    //-----------------END OF RECURSION---------------------------------------
-    r++;
-    std::cout << r << " level recursion" << std::endl;
+    std::cout << GREEN << depth << " level recursion" << RESET << std::endl;
     printVec("Bigs are: ");
     printPend(pending);
     std::cout << "Odd is: " << odd << std::endl;
+    depth++;
+    PmergeMeVec(); // recursive call on vec class member
+    //-----------------END OF RECURSION---------------------------------------
+    depth--;
 
     // Step 4: insert smalls using Jacobsthal order
     std::vector<unsigned int> sorted = vec; // already pre-sorted "bigs"
@@ -152,8 +146,8 @@ void PmergeMe::PmergeMeVec()
         std::vector<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), sorted.end(), pending[0].first); // first - small
         sorted.insert(pos, pending[0].first);
     }
-    printVec("After first insertion bigs are: ");
-
+    std::cout << GREEN <<"Insertion Level " << depth << RESET << std::endl;
+    printVec("Bigs/sorted are: ");
     // Use Jacobsthal sequence to determine insertion order
     for (size_t i = 0; i < _j_seq.size(); ++i)
     {
@@ -168,7 +162,7 @@ void PmergeMe::PmergeMeVec()
                 min = pending[j].first;
                 max = pending[j].second;
 
-                std::vector<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), max);
+                std::vector<unsigned int>::iterator bigPos = std::lower_bound(sorted.begin(), sorted.end(), max);
 
                 std::vector<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), bigPos, min);
                 sorted.insert(pos, min);
@@ -199,146 +193,99 @@ void PmergeMe::PmergeMeVec()
     vec = sorted;
 }
 
-// void PmergeMe::pmergeVec()
-// {
-//     if(vec.empty() || size == 1)
-//         throw std::runtime_error("Nothing to sort here");
 
-//     std::vector< std::pair<int, int> > pending;
-//     printVec("Before: ");
+void PmergeMe::PmergeMeDeq()
+{
+    size_t left = 0;
+    size_t right = 0;
+    // Base case: stop recursion when vec has 1 or 0 elements
+    if (deq.size() <= 1)
+        return;
 
-//     for (size_t i = 0; i + 1 < size; i += 2) {
-//         int big = vec[i] > vec[i+1] ? vec[i] : vec[i+1];
-//         int small = vec[i] < vec[i+1] ? vec[i] : vec[i+1];
-//         pending.push_back(std::make_pair(big, small));
-//     }
+    std::deque<std::pair<unsigned int, unsigned int> > pending; // for SMALL attached to its big
+    std::deque<unsigned int> bigs;                             // vector for BIG
+    bool hasOdd = false;                                        // odd or even amount of elements
+    unsigned int odd = 0;
 
-//     // Handle odd leftover
-//     if (size % 2 != 0) {
-//         std::pair<int, int> dub = std::make_pair(vec.back(), -1);
-//         pending.push_back(dub);
-//     }
+    // Step 1: split into pairs and collect (small, big)
+    for (size_t i = 0; i + 1 < deq.size(); i += 2)
+    {
+        unsigned int big = deq[i] >= deq[i + 1] ? deq[i] : deq[i + 1];
+        unsigned int small = deq[i] < deq[i + 1] ? deq[i] : deq[i + 1];
+        pending.push_back(std::make_pair(small, big));
+        bigs.push_back(big);
+    }
 
-//     //std::sort(pending.begin(), pending.end());
+    // Step 2: handle odd element
+    if (deq.size() % 2 == 1)
+    {
+        hasOdd = true;
+        odd = deq.back(); // pointer to last element of vector
+    }
 
-//     pmergeVec(pending);
+    // Step 3: recursively sort "bigs"
+    std::deque<unsigned int> sortedBigs = bigs; // copy for recursion
+    deq = sortedBigs;
+    depth++;
+    PmergeMeDeq(); // recursive call on vec class member
+    //-----------------END OF RECURSION---------------------------------------
+    depth--;
 
-//     std::vector<unsigned int> big;
+    // Step 4: insert smalls using Jacobsthal order
+    std::deque<unsigned int> sorted = deq; // already pre-sorted "bigs"
 
-//     for (size_t i = 0; i < pending.size(); i++)
-//         big.push_back(pending[i].first); // bigs
+    // Always insert the first small manually
+    if (!pending.empty())
+    {
+        std::deque<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), sorted.end(), pending[0].first); // first - small
+        sorted.insert(pos, pending[0].first);
+    }
+    
+    // Use Jacobsthal sequence to determine insertion order
+    for (size_t i = 0; i < _j_seq.size(); ++i)
+    {
+        right = _j_seq[i];
+        if (right >= pending.size())
+            continue;
 
-//     // Step 4: Insert pending.second using Jacobsthal sequence
-//     std::vector<size_t> jacob = jacobsthalSeq(pending.size());
+        for (size_t j = right; j > left; --j)
+        {
+            if (j < pending.size())
+            {
+                min = pending[j].first;
+                max = pending[j].second;
 
-//     // Insert first small element if it exists
-//     if (pending.size() > 0 && pending[0].second != -1) {
-//         big.insert(big.begin(), pending[0].second);
-//     }
+                std::deque<unsigned int>::iterator bigPos = std::find(sorted.begin(), sorted.end(), max);
 
-//     // Use Jacobsthal sequence to determine insertion order
-//     size_t lastProcessed = 0;
+                std::deque<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), bigPos, min);
+                sorted.insert(pos, min);
+            }
+        }
+        left = right;
+    }
 
-//     for(size_t i = 0; i < jacob.size(); ++i) {
-//         size_t jacobIndex = jacob[i];
-//         if (jacobIndex >= pending.size()) continue;
+    // If any smalls remain (beyond Jacobsthal coverage)
+    for (size_t j = left + 1; j < pending.size(); ++j)
+    {
+        min = pending[j].first;
+        max = pending[j].second;
+        std::deque<unsigned int>::iterator bigPos = std::lower_bound(sorted.begin(), sorted.end(), max);
+        std::deque<unsigned int>::iterator pos = std::lower_bound(sorted.begin(), bigPos, min);
+        sorted.insert(pos, min);
+    }
 
-//         // Insert elements from jacobIndex down to lastProcessed + 1
-//         for (size_t j = jacobIndex; j > lastProcessed; --j) {
-//             if (j < pending.size() && pending[j].second != -1) {
-//                 int val = pending[j].second;
-//                 std::vector<unsigned int>::iterator pos = std::lower_bound(big.begin(), big.end(), val);
-//                 big.insert(pos, val);
-//             }
-//         }
-//         lastProcessed = jacobIndex;
-//     }
+    // Step 5: insert odd if exists
+    if (hasOdd)
+    {
+        std::deque<unsigned int>::iterator pos =
+            std::lower_bound(sorted.begin(), sorted.end(), odd);
+        sorted.insert(pos, odd);
+    }
 
-//     // Insert any remaining elements that weren't covered by Jacobsthal sequence
-//     for (size_t i = lastProcessed + 1; i < pending.size(); ++i) {
-//         if (pending[i].second != -1) {
-//             int val = pending[i].second;
-//             std::vector<unsigned int>::iterator pos = std::lower_bound(big.begin(), big.end(), val);
-//             big.insert(pos, val);
-//         }
-//     }
+    // Step 6: write back
+    deq = sorted;
+}
 
-//     // Step 5: Copy back to vec
-//     vec = big;
-//     printVec("After : ");
-// }
-
-// void PmergeMe::pmergeDeq()
-// {
-//     std::deque<std::pair<int, int> > pending;
-//     printDeq("Before: ");
-
-//     for (size_t i = 0; i + 1 < size; i += 2)
-//     {
-//         int big = deq[i] > deq[i + 1] ? deq[i] : deq[i + 1];
-//         int small = deq[i] < deq[i + 1] ? deq[i] : deq[i + 1];
-//         pending.push_back(std::make_pair(big, small));
-//     }
-
-//     // Handle odd leftover
-//     if (size % 2 != 0)
-//     {
-//         std::pair<int, int> dub = std::make_pair(deq.back(), -1);
-//         pending.push_back(dub);
-//     }
-
-//     std::sort(pending.begin(), pending.end());
-
-//     std::deque<unsigned int> big;
-
-//     for (size_t i = 0; i < pending.size(); i++)
-//         big.push_back(pending[i].first); // bigs
-
-//     std::vector<size_t> jacob = jacobsthalSeq(pending.size());
-
-//     // Insert first small element if it exists
-//     if (pending.size() > 0 && pending[0].second != -1)
-//     {
-//         big.insert(big.begin(), pending[0].second);
-//     }
-
-//     // Use Jacobsthal sequence to determine insertion order
-//     size_t lastProcessed = 0;
-
-//     for (size_t i = 0; i < jacob.size(); ++i)
-//     {
-//         size_t jacobIndex = jacob[i];
-//         if (jacobIndex >= pending.size())
-//             continue;
-
-//         // Insert elements from jacobIndex down to lastProcessed + 1
-//         for (size_t j = jacobIndex; j > lastProcessed; --j)
-//         {
-//             if (j < pending.size() && pending[j].second != -1)
-//             {
-//                 int val = pending[j].second;
-//                 std::deque<unsigned int>::iterator pos = std::lower_bound(big.begin(), big.end(), val);
-//                 big.insert(pos, val);
-//             }
-//         }
-//         lastProcessed = jacobIndex;
-//     }
-
-//     // Insert any remaining elements that weren't covered by Jacobsthal sequence
-//     for (size_t i = lastProcessed + 1; i < pending.size(); ++i)
-//     {
-//         if (pending[i].second != -1)
-//         {
-//             int val = pending[i].second;
-//             std::deque<unsigned int>::iterator pos =
-//                 std::lower_bound(big.begin(), big.end(), val);
-//             big.insert(pos, val);
-//         }
-//     }
-//     // 3. Copy back to vec
-//     deq = big;
-//     printDeq("After : ");
-// }
 
 // ./PmergeMe "`shuf -i 1-100000 -n 3000 | tr '\n' ' '`"
 // ./PmergeMe "$(shuf -r -i 1-1000 -n 3000 | tr "\n" " ")"
