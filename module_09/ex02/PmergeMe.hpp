@@ -23,8 +23,6 @@ private:
     std::vector<unsigned int> jacobstal_seq(unsigned int size);
     unsigned int max;   // for insertion, right is max, second in pair
     unsigned int min;   // for insertion, left is min, first in pair
-    // unsigned int left;  // start value 0; then previous right
-    // unsigned int right; // starting point of incertion _j_seq[i]
     size_t size;
     
     //ONLY for recursion visualization

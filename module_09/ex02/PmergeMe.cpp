@@ -88,6 +88,7 @@ std::vector<unsigned int> PmergeMe::jacobstal_seq(unsigned int size)
             break;
         seq.push_back(seq[i - 1] + 2 * seq[i - 2]);
     }
+    seq.erase(seq.begin());
     seq.erase(seq.begin() + 1);
     return seq;
 }
@@ -98,6 +99,11 @@ size_t PmergeMe::getSize() const {
 
 void PmergeMe::PmergeMeVec()
 {
+    std::cout << "Jac is: ";
+    for (unsigned int i = 0; i < _j_seq.size(); i++)
+        std::cout << _j_seq[i] << " ";
+    std::cout << std::endl;
+
     size_t left = 0;
     size_t right = 0;
     // Base case: stop recursion when vec has 1 or 0 elements
@@ -153,7 +159,7 @@ void PmergeMe::PmergeMeVec()
     {
         right = _j_seq[i];
         if (right >= pending.size())
-            continue;
+            break ;
 
         for (size_t j = right; j > left; --j)
         {
