@@ -53,3 +53,5 @@ int main(int argc, char **argv)
 
 	return (0);
 }
+
+//c++ -Wall -Wextra -Werror array_bag.cpp searchable_array_bag.cpp searchable_tree_bag.cpp tree_bag.cpp set.cpp main.cpp  -o poly
