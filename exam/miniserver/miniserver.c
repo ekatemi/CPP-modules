@@ -10,8 +10,9 @@ int count = 0, max_fd = 0, sockfd;
 
 int ids[65536];
 char *messages[65536];
+char *send_buf[65536]; //NEW
 fd_set rfds, wfds, afds;
-char read_buf[1001], write_buf[100];
+char read_buf[1001], write_buf[1000];
 
 int extract_message(char **buf, char **msg)
 {
@@ -66,7 +67,7 @@ char *str_join(char *buf, char *add)
 
 void fatal_error() {
     write(2, "Fatal error\n", 12);
-    perror("fatal_error");
+    //perror("fatal_error");
     exit(1);
 }
 
@@ -81,6 +82,7 @@ void register_cli(int fd) {
     max_fd = fd > max_fd ? fd : max_fd;
     ids[fd] = count++;
     messages[fd] = NULL;
+    send_buf[fd] = NULL;  // NEW: init outgoing queue
     FD_SET(fd, &afds);
     sprintf(write_buf, "server: client %d just arrived\n", ids[fd]);
     notify_all(fd, write_buf);
